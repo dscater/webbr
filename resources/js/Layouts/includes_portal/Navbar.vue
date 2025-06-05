@@ -105,68 +105,8 @@ onMounted(() => {
                                 ]"
                             >
                                 <Link :href="route('portal.index')"
-                                    ><img
-                                        :src="url_asset + 'imgs/home2.png'"
-                                        alt="Img"
-                                    />Inicio</Link
-                                >
-                            </li>
-                            <li
-                                :class="[
-                                    route_current == 'portal.vehiculos'
-                                        ? 'active'
-                                        : '',
-                                ]"
-                            >
-                                <Link :href="route('portal.vehiculos')"
-                                    ><img
-                                        :src="url_asset + 'imgs/3.png'"
-                                        alt="Img"
-                                    />Vehículos</Link
-                                >
-                            </li>
-                            <li
-                                :class="[
-                                    route_current == 'portal.otros_bienes'
-                                        ? 'active'
-                                        : '',
-                                ]"
-                            >
-                                <Link :href="route('portal.otros_bienes')"
-                                    ><img
-                                        :src="url_asset + 'imgs/20.png'"
-                                        alt="Img"
-                                    />Otros Bienes</Link
-                                >
-                            </li>
-                            <li
-                                :class="[
-                                    route_current == 'portal.ecologicos'
-                                        ? 'active'
-                                        : '',
-                                ]"
-                            >
-                                <Link :href="route('portal.ecologicos')"
-                                    ><img
-                                        :src="url_asset + 'imgs/2.png'"
-                                        alt="Img"
-                                    />Ecológico</Link
-                                >
-                            </li>
-                            <li
-                                v-if="user && user.role_id == 2"
-                                :class="[
-                                    route_current == 'portal.mis_subastas'
-                                        ? 'active'
-                                        : '',
-                                ]"
-                            >
-                                <Link :href="route('portal.mis_subastas')"
-                                    ><img
-                                        :src="url_asset + 'imgs/7.png'"
-                                        class="img_mis_subastas"
-                                        alt="Img"
-                                    />Mis subastas</Link
+                                    ><span class="fa fa-home fa-2x"></span
+                                    >Inicio</Link
                                 >
                             </li>
                         </ul>
@@ -178,10 +118,7 @@ onMounted(() => {
                     <ul class="nav">
                         <li v-if="!user">
                             <a :href="route('registro')">
-                                <img
-                                    :src="url_asset + 'imgs/6.png'"
-                                    class="icon-1"
-                                />
+                                <span><i class="fa fa-clipboard"></i></span>
                                 <span class="d-none d-xl-inline">
                                     Registro</span
                                 >
@@ -189,10 +126,7 @@ onMounted(() => {
                         </li>
                         <li v-if="!user">
                             <a :href="route('login')">
-                                <img
-                                    :src="url_asset + 'imgs/1.png'"
-                                    class="icon-1"
-                                />
+                                <span><i class="fa fa-user"></i></span>
                                 <span class="d-none d-xl-inline"> Acceder</span>
                             </a>
                         </li>
@@ -247,6 +181,7 @@ onMounted(() => {
     border-bottom: solid 20px var(--principal-portal);
     height: 115px;
     transition: 0.3s all;
+    background-color: var(--secundario);
 }
 
 .header.header-fixed {
@@ -302,7 +237,7 @@ onMounted(() => {
 
 /* menu */
 .header-menu {
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .header.header-fixed .header-menu {
@@ -333,8 +268,11 @@ onMounted(() => {
     width: 33px;
 }
 
+.header-menu .nav li a {
+    color: var(--bg6);
+}
 .header-menu .nav li:hover a {
-    color: var(--principal-portal);
+    color: var(--bg6);
 }
 .header-menu .nav li.active a:active,
 .header-menu .nav li.active a:focus {
@@ -409,7 +347,7 @@ onMounted(() => {
         height: 66px;
     }
 
-    .header-logo{
+    .header-logo {
         margin-right: 0px;
     }
 

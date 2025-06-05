@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap");
 :root {
-    --principal: #00497e;
-    --principal_hover: #134869;
-    --principal-portal: #00aeeb;
-    --principal-portal2: #26638d;
-    --principal-portal3: #0e70b7;
+    --principal: #a55a29;
+    --principal_hover: #b66936;
+    --principal-portal: #a55a29;
+    --principal-portal2: #465966;
+    --principal-portal3: #a55a29;
     --principal_transparent: #004a80bd;
     --principal_portal_transparent: #049bd1;
-    --secundario: #004a80;
+    --secundario: #f3ee78;
     --secundario_hover: #9fc4e4;
     --fondo_app: #e8e9eb;
     --correcto: #d2e7c9;
@@ -23,6 +23,7 @@
     --bg3-hv: #009191;
     --bg4: #53ba83;
     --bg5: #9fd86b;
+    --bg6: #348fe2;
 }
 
 .img_qr_pago {
@@ -371,6 +372,11 @@ html {
 
 .app-sidebar .menu .menu-item.active > .menu-link {
     background-color: var(--secundario);
+    color: var(--principal);
+}
+
+.app-sidebar .menu .menu-item.active>.menu-link .menu-icon{
+    color: var(--principal);
 }
 
 .app-sidebar.bg-dark .menu-item .menu-submenu .menu-item.active .menu-text {

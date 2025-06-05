@@ -23,29 +23,18 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         return Inertia::render('Admin/Profile/Edit', [
-            'user' => $request->user()->load(["role"]),
+            'user' => $request->user(),
         ]);
     }
     public function profile_cliente(Request $request)
     {
         if (Auth::check()) {
             return Inertia::render('Portal/Perfil', [
-                'user' => $request->user()->load(["role"]),
+                'user' => $request->user(),
             ]);
         }
         return redirect()->route("portal.index");
     }
-
-    public function getInfoCliente(Request $request)
-    {
-        $cliente = null;
-        if (Auth::user()->role_id == 2) {
-            $cliente = Auth::user()->cliente;
-        }
-
-        return response()->JSON($cliente);
-    }
-
 
     public function updateInfoCliente(Request $request): RedirectResponse
     {
@@ -183,9 +172,6 @@ class ProfileController extends Controller
             $usuario->save();
             DB::commit();
 
-            if ($usuario->role_id == 2) {
-                return Redirect::route('profile.profile_cliente')->with("success", "Perfil actualizado");
-            }
             return Redirect::route('profile.edit')->with("bien", "Perfil actualizado");
         } catch (\Exception $e) {
             DB::rollBack();
@@ -210,10 +196,6 @@ class ProfileController extends Controller
             }
             $usuario->save();
             DB::commit();
-
-            if ($usuario->role_id == 2) {
-                return Redirect::route('profile.profile_cliente')->with("success", "Perfil actualizado");
-            }
 
             return Redirect::route('profile.edit')->with("success", "Perfil actualizado");
         } catch (\Exception $e) {

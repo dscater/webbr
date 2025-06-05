@@ -5,10 +5,19 @@ import { usePage } from "@inertiajs/vue3";
 const oUsuario = ref({
     id: 0,
     usuario: "",
-    nombres: "",
-    apellidos: "",
-    role_id: "",
-    password: "",
+    nombre: "",
+    paterno: "",
+    materno: "",
+    ci: "",
+    ci_exp: "",
+    dir: "",
+    correo: "",
+    fono: "",
+    tipo: "",
+    foto: "",
+    url_foto: "",
+    fecha_registro: "",
+    status: "",
     acceso: 0 + "",
     _method: "POST",
 });
@@ -141,11 +150,21 @@ export const useUsuarios = () => {
         if (item) {
             oUsuario.value.id = item.id;
             oUsuario.value.usuario = item.usuario;
-            oUsuario.value.nombres = item.nombres;
-            oUsuario.value.apellidos = item.apellidos;
-            oUsuario.value.role_id = item.role_id;
+            oUsuario.value.nombre = item.nombre;
+            oUsuario.value.paterno = item.paterno;
+            oUsuario.value.materno = item.materno;
+            oUsuario.value.ci = item.ci;
+            oUsuario.value.ci_exp = item.ci_exp;
+            oUsuario.value.dir = item.dir;
+            oUsuario.value.correo = item.correo;
+            oUsuario.value.fono = item.fono;
+            oUsuario.value.password = item.password;
             oUsuario.value.acceso = item.acceso + "";
-            oUsuario.value.password = "";
+            oUsuario.value.tipo = item.tipo;
+            oUsuario.value.foto = item.foto;
+            oUsuario.value.url_foto = item.url_foto;
+            oUsuario.value.fecha_registro = item.fecha_registro;
+            oUsuario.value.status = item.status;
             oUsuario.value._method = "PUT";
             if (cliente) {
                 oUsuario.value.cliente = item.cliente;
@@ -158,11 +177,21 @@ export const useUsuarios = () => {
     const limpiarUsuario = () => {
         oUsuario.value.id = 0;
         oUsuario.value.usuario = "";
-        oUsuario.value.nombres = "";
-        oUsuario.value.apellidos = "";
-        oUsuario.value.role_id = "";
-        oUsuario.value.acceso = 0 + "";
+        oUsuario.value.nombre = "";
+        oUsuario.value.paterno = "";
+        oUsuario.value.materno = "";
+        oUsuario.value.ci = "";
+        oUsuario.value.ci_exp = "";
+        oUsuario.value.dir = "";
+        oUsuario.value.correo = "";
+        oUsuario.value.fono = "";
         oUsuario.value.password = "";
+        oUsuario.value.acceso = 0 + "";
+        oUsuario.value.tipo = "";
+        oUsuario.value.foto = "";
+        oUsuario.value.url_foto = "";
+        oUsuario.value.fecha_registro = "";
+        oUsuario.value.status = "";
         oUsuario.value._method = "POST";
     };
 

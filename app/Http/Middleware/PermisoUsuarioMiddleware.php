@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Modulo;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,25 +24,25 @@ class PermisoUsuarioMiddleware
             // Log::debug($request->route()->getPrefix());
             $prefijo = $request->route()->getPrefix();
             $nom_ruta = $request->route()->getName();
-
             $continuar = true;
 
+            $exepciones = [
+                "inicio",
+
+                "profile.edit",
+                "profile.update",
+
+                "users.getUser",
+            ];
+
             if ($prefijo == 'admin') {
-
-                if (Auth::user()->role_id == 2 && !$request->ajax()) {
-                    return redirect()->route("portal.index");
+                if (!in_array($nom_ruta, $permisos)) {
+                    $continuar = false;
                 }
-
-                if (is_array($permisos)) {
-                    $modulos = Modulo::pluck("nombre")->toArray();
-                    if (in_array($nom_ruta, $modulos)) {
-                        if (!in_array($nom_ruta, $permisos)) {
-                            $continuar = false;
-                        }
-                    }
+                if (in_array($nom_ruta, $exepciones)) {
+                    $continuar = true;
                 }
             }
-
             if (!$continuar) {
                 abort(401, "Acceso denegado");
             }

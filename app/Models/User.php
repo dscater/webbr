@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Services\PermisoService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -73,7 +74,8 @@ class User extends Authenticatable
 
     public function getPermisosAttribute()
     {
-        return $this->getPermisos();
+        $permisoService = new PermisoService();
+        return $permisoService->getPermisosUser();
     }
 
     public function getFechaRegistroTAttribute()
@@ -83,7 +85,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->nombres . ' ' . $this->apellidos;
+        return $this->nombre . ' ' . $this->paterno . ($this->materno ? ' ' . $this->materno : '');
     }
 
     public function getUrlFotoAttribute()
@@ -107,15 +109,7 @@ class User extends Authenticatable
     }
 
     // RELACIONES
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
 
-    public function cliente()
-    {
-        return $this->hasOne(Cliente::class, 'user_id');
-    }
     // FUNCIONES
     public static function getNombreUsuario($nom, $apep)
     {
@@ -123,27 +117,5 @@ class User extends Authenticatable
         $nombre_user = substr(mb_strtoupper($nom), 0, 1); //inicial 1er_nombre
         $nombre_user .= mb_strtoupper($apep);
         return $nombre_user;
-    }
-
-
-    public function getPermisos()
-    {
-        $role_id = Auth::user()->role_id;
-        $role = Role::find($role_id);
-        if ($role->permisos == 1) {
-            // todos los permisos de administración
-            return "*";
-        }
-        $permisos = Permiso::join("modulos", "modulos.id", "=", "permisos.modulo_id")
-            ->where("permisos.role_id", $role->id)
-            ->pluck("modulos.nombre")
-            ->toArray();
-
-        return $permisos;
-    }
-
-    public static function verificaPermiso($permiso)
-    {
-        return false;
     }
 }

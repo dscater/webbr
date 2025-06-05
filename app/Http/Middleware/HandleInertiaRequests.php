@@ -20,7 +20,7 @@ class HandleInertiaRequests extends Middleware
         $nom_ruta = $request->route()->getName();
         $prefix = $request->route()->getPrefix();
         $validate_prefix = ["admin", "/admin"];
-        if (in_array($prefix, $validate_prefix) || in_array($nom_ruta, ['login', 'registro', 'terminos_condiciones', 'olvido_contrasena', 'recuperar_password'])) {
+        if (in_array($prefix, $validate_prefix) || in_array($nom_ruta, ['login'])) {
             return 'app';
         }
         return 'portal';
@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user() ? $request->user()->load(["role"]) : null,
+                'user' => $request->user() ? $request->user() : null,
             ],
             'url_assets' => asset(''),
             'url_principal' => url(''),

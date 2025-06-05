@@ -477,16 +477,16 @@ const logout = () => {
                     >
                         <div class="menu-profile-cover with-shadow"></div>
                         <div class="menu-profile-image">
-                            <img :src="oUser.url_foto" alt="" />
+                            <img :src="oUser?.url_foto" alt="" />
                         </div>
                         <div class="menu-profile-info">
                             <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
+                                <div class="flex-grow-1 text-white">
                                     {{ oUser.full_name }}
                                 </div>
                                 <div class="menu-caret ms-auto"></div>
                             </div>
-                            <small>{{ oUser.role?.nombre }}</small>
+                            <small>{{ oUser.tipo }}</small>
                         </div>
                     </a>
                 </div>
@@ -529,49 +529,6 @@ const logout = () => {
                 >
                     ADMINISTRACIÓN
                 </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('publicacions.index')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'publicacions.index' ||
-                        route_current == 'subastas.clientes'
-                            ? 'active'
-                            : '',
-                    ]"
-                >
-                    <Link :href="route('publicacions.index')" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa fa-list"></i>
-                        </div>
-                        <div class="menu-text">Publicaciones</div>
-                    </Link>
-                </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('publicacions.index')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'publicacions.devolucions'
-                            ? 'active'
-                            : '',
-                    ]"
-                >
-                    <Link
-                        :href="route('publicacions.devolucions')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-clipboard-list"></i>
-                        </div>
-                        <div class="menu-text">Devolución de garantías</div>
-                    </Link>
-                </div>
-
                 <div
                     class="menu-header"
                     v-if="
@@ -620,186 +577,35 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('roles.index')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'roles.index' ? 'active' : 'none',
-                    ]"
-                >
-                    <Link :href="route('roles.index')" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa fa-list"></i>
-                        </div>
-                        <div class="menu-text">Roles</div>
-                    </Link>
-                </div>
-                <div
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.publicacions'
-                        ) ||
-                        user_logeado.permisos.includes(
-                            'reportes.subasta_clientes'
-                        ) ||
+                        user_logeado.permisos.includes('reportes.usuarios') ||
                         user_logeado.permisos.includes('reportes.clientes')
                     "
                 >
                     REPORTES
                 </div>
-
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('reportes.publicacions')
+                        user_logeado.permisos.includes('reportes.usuarios')
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'reportes.publicacions'
+                        route_current == 'reportes.usuarios'
                             ? 'active'
                             : 'none',
                     ]"
                 >
-                    <Link
-                        :href="route('reportes.publicacions')"
-                        class="menu-link"
-                    >
+                    <Link :href="route('reportes.usuarios')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-file-alt"></i>
                         </div>
-                        <div class="menu-text">Publicaciones</div>
-                    </Link>
-                </div>
-
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.subasta_clientes'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.subasta_clientes'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.subasta_clientes')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-file-alt"></i>
-                        </div>
-                        <div class="menu-text">Clientes por Subasta</div>
-                    </Link>
-                </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('reportes.clientes')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.clientes'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link :href="route('reportes.clientes')" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa fa-file-alt"></i>
-                        </div>
-                        <div class="menu-text">Clientes</div>
-                    </Link>
-                </div>
-                <div
-                    class="menu-header"
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.subasta_clientes'
-                        )
-                    "
-                >
-                    GRÁFICAS
-                </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.subasta_clientes'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.g_subasta_clientes'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.g_subasta_clientes')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-chart-pie"></i>
-                        </div>
-                        <div class="menu-text">Subastas</div>
-                    </Link>
-                </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.subasta_clientes'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.g_puja_clientes'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.g_puja_clientes')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-chart-pie"></i>
-                        </div>
-                        <div class="menu-text">Ofertas/Pujas</div>
+                        <div class="menu-text">Usuarios</div>
                     </Link>
                 </div>
                 <div class="menu-header">OTROS</div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('parametrizacion.index')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'parametrizacions.index'
-                            ? 'active'
-                            : '',
-                    ]"
-                >
-                    <Link
-                        :href="route('parametrizacions.index')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-list"></i>
-                        </div>
-                        <div class="menu-text">Parametrización</div>
-                    </Link>
-                </div>
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||

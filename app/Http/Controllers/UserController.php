@@ -14,7 +14,7 @@ class UserController extends Controller
     public function permisosUsuario(Request $request)
     {
         return response()->JSON([
-            "permisos" => Auth::user()->getPermisos()
+            "permisos" => Auth::user()->permisos
         ]);
     }
 
@@ -31,7 +31,7 @@ class UserController extends Controller
         $array_infos = [];
         if (Auth::check()) {
             $oUser = new User();
-            $permisos = $oUser->getPermisos();
+            $permisos = $oUser->permisos;
             if ($permisos == '*' || (is_array($permisos) && in_array('usuarios.index', $permisos))) {
                 $array_infos[] = [
                     'label' => 'USUARIOS',

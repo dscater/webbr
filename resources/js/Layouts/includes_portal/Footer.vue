@@ -31,30 +31,6 @@ const { oConfiguracion } = useConfiguracion();
                                 >Inicio</Link
                             >
                         </li>
-                        <li>
-                            <i class="fa fa-fw fa-angle-right"></i>
-                            <Link
-                                class="text-white"
-                                :href="route('portal.vehiculos')"
-                                >Vehículos</Link
-                            >
-                        </li>
-                        <li>
-                            <i class="fa fa-fw fa-angle-right"></i>
-                            <Link
-                                class="text-white"
-                                :href="route('portal.otros_bienes')"
-                                >Otros bienes</Link
-                            >
-                        </li>
-                        <li>
-                            <i class="fa fa-fw fa-angle-right"></i>
-                            <Link
-                                class="text-white"
-                                :href="route('portal.ecologicos')"
-                                >Ecológicos</Link
-                            >
-                        </li>
                     </ul>
                 </div>
                 <!-- END col-3 -->

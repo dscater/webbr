@@ -172,21 +172,6 @@ onMounted(() => {
                                     Ingresar
                                 </button>
                             </div>
-                            <div class="mb-15px">
-                                <Link
-                                    :href="route('registro')"
-                                    class="btn btn-default d-block w-100 h-45px btn-lg"
-                                >
-                                    Registrarse
-                                </Link>
-                            </div>
-                            <div class="mb-20px">
-                                <Link
-                                    :href="route('olvido_contrasena')"
-                                    class="text-white d-block w-100 text-center"
-                                    >¿Olvidaste tu contraseña?</Link
-                                >
-                            </div>
                             <div class="mb-20px">
                                 <a
                                     :href="route('portal.index')"

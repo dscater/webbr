@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -103,12 +102,10 @@ class RegisteredUserController extends Controller
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
-            $role = Role::find(2); //CLIENTE
             $user = User::create([
                 'usuario' => $request->email,
                 "nombres" => mb_strtoupper($request->nombre),
                 'apellidos' => mb_strtoupper($request->paterno . (trim($request->materno) != '' ? ' ' . $request->materno : '')),
-                "role_id" => $role->id,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 "acceso" => 1,
