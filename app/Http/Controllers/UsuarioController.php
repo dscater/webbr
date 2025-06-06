@@ -20,7 +20,6 @@ class UsuarioController extends Controller
     public $validacion = [
         "nombres" => "required|min:1",
         "apellidos" => "required|min:1",
-        "role_id" => "required",
     ];
 
     public $mensajes = [
@@ -28,7 +27,6 @@ class UsuarioController extends Controller
         "nombres.min" => "Debes ingresar al menos :min caracteres",
         "apellidos.required" => "Este campo es obligatorio",
         "apellidos.min" => "Debes ingresar al menos :min caracteres",
-        "role_id.required" => "Este campo es obligatorio",
         "usuario.required" => "Este campo es obligatorio",
         "password.required" => "Este campo es obligatorio",
     ];
@@ -45,7 +43,7 @@ class UsuarioController extends Controller
 
     public function listado()
     {
-        $usuarios = User::with(["role"])->where("id", "!=", 1)->where("status", 1)->get();
+        $usuarios = User::where("id", "!=", 1)->where("status", 1)->get();
         return response()->JSON([
             "usuarios" => $usuarios
         ]);
@@ -53,7 +51,7 @@ class UsuarioController extends Controller
 
     public function byTipo(Request $request)
     {
-        $usuarios = User::with(["role"])->where("id", "!=", 1);
+        $usuarios = User::where("id", "!=", 1);
         if (isset($request->tipo) && trim($request->tipo) != "") {
             $usuarios = $usuarios->where("tipo", $request->tipo);
         }
@@ -76,15 +74,13 @@ class UsuarioController extends Controller
         $page = ($start / $length) + 1; // Cálculo de la página actual
         $search = $request->input('search');
 
-        $usuarios = User::with(["role"])
-            ->selectRaw("users.*, CONCAT(users.nombres,' ',users.apellidos) as full_name")
-            ->join("roles", "roles.id", "=", "users.role_id")
-            ->where("users.id", "!=", 1)
-            ->where("users.role_id", "!=", 2);
+        $usuarios = User::selectRaw("users.*, CONCAT(users.nombre,' ',users.paterno,' ',users.materno) as full_name")
+            ->where("users.id", "!=", 1);
         if ($search && trim($search) != '') {
-            $usuarios->where("roles.nombre", "LIKE", "%$search%");
-            $usuarios->orWhereRaw("users.usuario LIKE ?", ["%$search%"]);
-            $usuarios->orWhereRaw("CONCAT(users.nombres,' ',users.apellidos) LIKE ?", ["%$search%"]);
+            $usuarios->where(function ($q) use ($search) {
+                $q->where("users.usuario", "LIKE", "%$search%")
+                    ->orWhereRaw("CONCAT(users.nombre,' ',users.paterno,' ',users.materno) LIKE ?", ["%$search%"]);
+            });
         }
 
         // order
@@ -101,55 +97,6 @@ class UsuarioController extends Controller
 
         $usuarios = $usuarios->where("status", 1)->paginate($length, ['*'], 'page', $page);
 
-        // Numeración
-        $usuarios->getCollection()->transform(function ($usuario, $index) use ($usuarios) {
-            $usuario->enumeracion = ($usuarios->currentPage() - 1) * $usuarios->perPage() + $index + 1;
-            return $usuario;
-        });
-
-        return response()->JSON([
-            'data' => $usuarios->items(),
-            'recordsTotal' => $usuarios->total(),
-            'recordsFiltered' => $usuarios->total(),
-            'draw' => intval($request->input('draw')),
-        ]);
-    }
-
-    public function api_clientes(Request $request)
-    {
-        $length = $request->input('length', 10); // Valor de `length` enviado por DataTable
-        $start = $request->input('start', 0); // Índice de inicio enviado por DataTable
-        $page = ($start / $length) + 1; // Cálculo de la página actual
-        $search = $request->input('search');
-
-        $usuarios = User::with(["role", "cliente"])
-            ->selectRaw("users.*, CONCAT(users.nombres,' ',users.apellidos) as full_name")
-            ->join("roles", "roles.id", "=", "users.role_id")
-            ->where("users.id", "!=", 1)
-            ->where("users.role_id", "=", 2);
-        if ($search && trim($search) != '') {
-            $usuarios->where("roles.nombre", "LIKE", "%$search%");
-            $usuarios->orWhereRaw("users.usuario LIKE ?", ["%$search%"]);
-            $usuarios->orWhereRaw("CONCAT(users.nombres,' ',users.apellidos) LIKE ?", ["%$search%"]);
-        }
-
-        // order
-        if (isset($request->order)) {
-            $order = $request->order;
-            $nro_col = $order[0]["column"];
-            $asc_desc = $order[0]["dir"];
-            $columns = $request->columns;
-            if ($columns[$nro_col]["data"]) {
-                $col_data = $columns[$nro_col]["data"];
-                $usuarios->orderBy($col_data, $asc_desc);
-            }
-        }
-
-        $usuarios = $usuarios->where("status", 1)->paginate($length, ['*'], 'page', $page);
-        $usuarios->getCollection()->transform(function ($usuario, $index) use ($usuarios) {
-            $usuario->enumeracion = ($usuarios->currentPage() - 1) * $usuarios->perPage() + $index + 1;
-            return $usuario;
-        });
         return response()->JSON([
             'data' => $usuarios->items(),
             'recordsTotal' => $usuarios->total(),
@@ -161,7 +108,7 @@ class UsuarioController extends Controller
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = User::with(["role"])->where("id", "!=", 1);
+        $usuarios = User::where("id", "!=", 1);
 
         if (trim($search) != "") {
             $usuarios->where("nombre", "LIKE", "%$search%");
@@ -194,7 +141,6 @@ class UsuarioController extends Controller
                 "nombres" => mb_strtoupper($request->nombres),
                 "apellidos" => mb_strtoupper($request->apellidos),
                 "password" => "123456",
-                "role_id" => $request->role_id,
                 "acceso" => $request->acceso,
                 "fecha_registro" => $request->fecha_registro,
             ]);
@@ -253,7 +199,6 @@ class UsuarioController extends Controller
                 "usuario" => mb_strtoupper($request->usuario),
                 "nombres" => mb_strtoupper($request->nombres),
                 "apellidos" => mb_strtoupper($request->apellidos),
-                "role_id" => $request->role_id,
                 "acceso" => $request->acceso,
             ]);
             if ($request->password && trim($request->password)) {

@@ -7,7 +7,6 @@ export default {
 <script setup>
 import { onMounted, ref } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
-import PublicacionLista from "@/Components/PublicacionLista.vue";
 
 const { props: props_page } = usePage();
 const user = ref(props_page.auth?.user);
@@ -42,11 +41,12 @@ onMounted(() => {
     <div id="vehiculos" class="seccion_categoria vehiculos">
         <!-- BEGIN container -->
         <div class="container mb-0">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="w-100 text-center">Venta de terrenos</h3>
+                </div>
+            </div>
             <!-- BEGIN section-title -->
-            <h4 class="titlesec">
-                <img :src="url_asset + 'imgs/14.png'" alt="" />
-                <span class="flex-1"> Vehículos Siniestrados</span>
-            </h4>
             <!-- END section-title -->
             <!-- BEGIN row -->
             <div class="row gx-2">
@@ -57,18 +57,10 @@ onMounted(() => {
                 >
                     <!-- BEGIN item -->
                     <div class="item item-thumbnail">
-                        <PublicacionLista
-                            :publicacion="item"
-                        ></PublicacionLista>porCategoriaLimitado
                     </div>
                     <!-- END item -->
                 </div>
                 <!-- END col-2 -->
-                <div class="col-12 text-center mt-20px">
-                    <a href="" class="btn btn-primary"
-                        >Ver más <i class="fa fa-arrow-right"></i
-                    ></a>
-                </div>
             </div>
             <!-- END row -->
         </div>

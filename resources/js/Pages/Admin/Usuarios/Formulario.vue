@@ -46,7 +46,12 @@ watch(
 
 const { flash } = usePage().props;
 
-const listRoles = ref([]);
+const listTipos = ref([
+    { value: "GERENTE", label: "GERENTE" },
+    { value: "SECRETARIA", label: "SECRETARIA" },
+    { value: "SUPERVISOR", label: "SUPERVISOR" },
+    { value: "VENDEDOR", label: "VENDEDOR" },
+]);
 // const listExpedido = [
 //     { value: "LP", label: "La Paz" },
 //     { value: "CB", label: "Cochabamba" },
@@ -134,15 +139,7 @@ const cerrarDialog = () => {
     document.getElementsByTagName("body")[0].classList.remove("modal-open");
 };
 
-const cargarListas = () => {
-    cargarRoles();
-};
-
-const cargarRoles = async () => {
-    axios.get(route("roles.listado")).then((response) => {
-        listRoles.value = response.data.roles;
-    });
-};
+const cargarListas = () => {};
 
 onMounted(() => {
     cargarListas();
@@ -264,10 +261,10 @@ onMounted(() => {
                                 >
                                     <option value="">- Seleccione -</option>
                                     <option
-                                        v-for="item in listRoles"
-                                        :value="item.id"
+                                        v-for="item in listTipos"
+                                        :value="item.value"
                                     >
-                                        {{ item.nombre }}
+                                        {{ item.label }}
                                     </option>
                                 </select>
 

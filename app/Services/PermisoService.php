@@ -8,6 +8,7 @@ class PermisoService
 {
     protected $arrayPermisos = [
         "GERENTE" => [
+            "usuarios.api",
             "usuarios.index",
             "usuarios.create",
             "usuarios.edit",

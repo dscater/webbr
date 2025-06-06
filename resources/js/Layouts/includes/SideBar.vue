@@ -524,21 +524,58 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('publicacions.index')
+                        user_logeado.permisos.includes('usuarios.index')
                     "
                 >
                     ADMINISTRACIÓN
                 </div>
-                <div
-                    class="menu-header"
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('usuarios.index') ||
-                        user_logeado.permisos.includes('roles.index') ||
-                        user_logeado.permisos.includes('clientes.index')
-                    "
-                >
-                    GESTIÓN DE USUARIOS
+                <div class="menu-item">
+                    <a href="" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Pre-Venta de Terrenos</div>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Clientes</div>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Terrenos</div>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Manzano</div>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Urbanización</div>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Municipio/Ciudad</div>
+                    </a>
                 </div>
                 <div
                     v-if="

@@ -84,9 +84,8 @@ onMounted(() => {
                 <!-- BEGIN header-logo -->
                 <div class="header-logo">
                     <a :href="route('portal.index')" class="mr-5">
-                        <img :src="url_asset + 'imgs/8.png'" alt="Img" />
+                        <img :src="oConfiguracion.url_logo" alt="Img" />
                     </a>
-                    <img :src="url_asset + 'imgs/10.png'" alt="Img" />
                 </div>
                 <!-- END header-logo -->
                 <!-- BEGIN header-nav -->
@@ -97,18 +96,7 @@ onMounted(() => {
                         ref="navbarCollapse"
                     >
                         <ul class="nav justify-content-center">
-                            <li
-                                :class="[
-                                    route_current == 'portal.index'
-                                        ? 'active'
-                                        : '',
-                                ]"
-                            >
-                                <Link :href="route('portal.index')"
-                                    ><span class="fa fa-home fa-2x"></span
-                                    >Inicio</Link
-                                >
-                            </li>
+                            <li class="h1">{{ oConfiguracion.nombre_sistema }}</li>
                         </ul>
                     </div>
                 </div>
@@ -116,14 +104,6 @@ onMounted(() => {
                 <!-- BEGIN header-nav -->
                 <div class="header-nav header-registro">
                     <ul class="nav">
-                        <li v-if="!user">
-                            <a :href="route('registro')">
-                                <span><i class="fa fa-clipboard"></i></span>
-                                <span class="d-none d-xl-inline">
-                                    Registro</span
-                                >
-                            </a>
-                        </li>
                         <li v-if="!user">
                             <a :href="route('login')">
                                 <span><i class="fa fa-user"></i></span>
@@ -297,7 +277,6 @@ onMounted(() => {
 
 /* REGISTRO */
 .header-registro .nav {
-    height: 80px;
 }
 .header .header-nav.header-registro:last-child {
     width: auto;

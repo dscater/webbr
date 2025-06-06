@@ -127,48 +127,6 @@ onBeforeUnmount(() => {
                         sin_ver
                     }}</span>
                 </a>
-                <div
-                    class="dropdown-menu media-list dropdown-menu-end notificacions"
-                    :class="{
-                        show: muestra_notificacions,
-                    }"
-                >
-                    <div class="dropdown-header">
-                        NOTIFICACIONES ({{ sin_ver }})
-                    </div>
-                    <Link
-                        class="dropdown-item media"
-                        v-for="item in listNotificacions"
-                        :href="`${route(
-                            'subasta_clientes.show',
-                            item.notificacion.registro_id
-                        )}?notificacion_user_id=${item.id}`"
-                    >
-                        <div class="media-left">
-                            <i
-                                class="fa fa-info-circle media-object bg-gray-400"
-                            ></i>
-                        </div>
-                        <div class="media-body">
-                            <p class="media-heading">
-                                {{ item.notificacion.descripcion }}
-                                <i
-                                    class="fa fa-exclamation-circle text-danger"
-                                ></i>
-                            </p>
-                            <div class="text-muted fs-10px">
-                                {{ item.notificacion.hace }}
-                            </div>
-                        </div>
-                    </Link>
-                    <!-- <div class="dropdown-footer text-center">
-                        <Link
-                            :href="route('notificacion_users.index')"
-                            class="text-decoration-none"
-                            >Ver más</Link
-                        >
-                    </div> -->
-                </div>
             </div>
             <div class="navbar-item navbar-user dropdown">
                 <a

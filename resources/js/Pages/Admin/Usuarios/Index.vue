@@ -39,11 +39,7 @@ const { getUsuarios, setUsuario, limpiarUsuario, deleteUsuario } =
 const columns = [
     {
         title: "",
-        data: null,
-        sortable: false,
-        render: function (data, type, row) {
-            return row.enumeracion;
-        },
+        data: "id",
     },
     {
         title: "",
@@ -62,8 +58,8 @@ const columns = [
         data: "full_name",
     },
     {
-        title: "ROLE",
-        data: "role.nombre",
+        title: "TIPO",
+        data: "tipo",
     },
     {
         title: "ACCESO",
