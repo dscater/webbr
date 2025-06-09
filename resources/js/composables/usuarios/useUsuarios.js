@@ -161,7 +161,7 @@ export const useUsuarios = () => {
             oUsuario.value.password = item.password;
             oUsuario.value.acceso = item.acceso + "";
             oUsuario.value.tipo = item.tipo;
-            oUsuario.value.foto = item.foto;
+            oUsuario.value.foto = null;
             oUsuario.value.url_foto = item.url_foto;
             oUsuario.value.fecha_registro = item.fecha_registro;
             oUsuario.value.status = item.status;
@@ -188,7 +188,7 @@ export const useUsuarios = () => {
         oUsuario.value.password = "";
         oUsuario.value.acceso = 0 + "";
         oUsuario.value.tipo = "";
-        oUsuario.value.foto = "";
+        oUsuario.value.foto = null;
         oUsuario.value.url_foto = "";
         oUsuario.value.fecha_registro = "";
         oUsuario.value.status = "";

@@ -114,6 +114,8 @@ class User extends Authenticatable
     public static function getNombreUsuario($nom, $apep)
     {
         //determinando el nombre de usuario inicial del 1er_nombre+apep+tipoUser
+
+        
         $nombre_user = substr(mb_strtoupper($nom), 0, 1); //inicial 1er_nombre
         $nombre_user .= mb_strtoupper($apep);
         return $nombre_user;

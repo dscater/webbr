@@ -6,6 +6,7 @@ use App\Models\HistorialAccion;
 use App\Models\User;
 use App\Models\Venta;
 use App\Models\VentaLote;
+use App\Services\HistorialAccionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,19 +18,41 @@ use PgSql\Lob;
 
 class UsuarioController extends Controller
 {
+    private $modulo = "USUARIOS";
+
     public $validacion = [
-        "nombres" => "required|min:1",
-        "apellidos" => "required|min:1",
+        "nombre" => "required|min:1",
+        "paterno" => "required|min:1",
+        "materno" => "nullable",
+        "ci" => "required|min:1",
+        "ci_exp" => "required|min:1",
+        "dir" => "required|min:1",
+        "correo" => "nullable|email",
+        "fono" => "required|min:1",
+        "acceso" => "required",
+        "tipo" => "required",
+        "foto" => "nullable",
     ];
 
     public $mensajes = [
-        "nombres.required" => "Este campo es obligatorio",
-        "nombres.min" => "Debes ingresar al menos :min caracteres",
-        "apellidos.required" => "Este campo es obligatorio",
-        "apellidos.min" => "Debes ingresar al menos :min caracteres",
-        "usuario.required" => "Este campo es obligatorio",
-        "password.required" => "Este campo es obligatorio",
+        "nombre.required" => "Este campo es obligatorio",
+        "nombre.min" => "Debes ingresar al menos :min caracteres",
+        "paterno.required" => "Este campo es obligatorio",
+        "paterno.min" => "Debes ingresar al menos :min caracteres",
+        "ci.required" => "Este campo es obligatorio",
+        "ci.min" => "Debes ingresar al menos :min caracteres",
+        "ci_exp.required" => "Este campo es obligatorio",
+        "ci_exp.min" => "Debes ingresar al menos :min caracteres",
+        "dir.required" => "Este campo es obligatorio",
+        "dir.min" => "Debes ingresar al menos :min caracteres",
+        "fono.required" => "Este campo es obligatorio",
+        "fono.min" => "Debes ingresar al menos :min caracteres",
+        "acceso.required" => "Este campo es obligatorio",
+        "acceso.min" => "Debes ingresar al menos :min caracteres",
+        "tipo.required" => "Este campo es obligatorio",
     ];
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function index()
     {
@@ -74,7 +97,7 @@ class UsuarioController extends Controller
         $page = ($start / $length) + 1; // Cálculo de la página actual
         $search = $request->input('search');
 
-        $usuarios = User::selectRaw("users.*, CONCAT(users.nombre,' ',users.paterno,' ',users.materno) as full_name")
+        $usuarios = User::selectRaw("users.*, CONCAT(users.nombre,' ',users.paterno,' ',users.materno) as full_name, CONCAT(users.ci,' ',users.ci_exp) as full_ci")
             ->where("users.id", "!=", 1);
         if ($search && trim($search) != '') {
             $usuarios->where(function ($q) use ($search) {
@@ -128,8 +151,7 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
-        $this->validacion['usuario'] = 'required|min:4|unique:users,usuario';
-        $this->validacion['password'] = 'required|min:4';
+        $this->validacion["ci"] = "required|numeric|digits_between:6,10|unique:users,ci";
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
@@ -137,26 +159,33 @@ class UsuarioController extends Controller
 
             // crear el Usuario
             $nuevo_usuario = User::create([
-                "usuario" => mb_strtoupper($request->usuario),
-                "nombres" => mb_strtoupper($request->nombres),
-                "apellidos" => mb_strtoupper($request->apellidos),
-                "password" => "123456",
+                "usuario" => User::getNombreUsuario($request->nombre, $request->paterno),
+                "nombre" => mb_strtoupper($request->nombre),
+                "paterno" => mb_strtoupper($request->paterno),
+                "materno" => mb_strtoupper($request->materno),
+                "ci" => mb_strtoupper($request->ci),
+                "ci_exp" => mb_strtoupper($request->ci_exp),
+                "dir" => mb_strtoupper($request->dir),
+                "correo" => $request->correo,
+                "fono" => mb_strtoupper($request->fono),
+                "password" => Hash::make($request->ci),
                 "acceso" => $request->acceso,
-                "fecha_registro" => $request->fecha_registro,
+                "tipo" => mb_strtoupper($request->tipo),
+                "fecha_registro" => date("Y-m-d"),
             ]);
-            $nuevo_usuario->password = Hash::make($request->password);
+
+            if ($request->foto) {
+                $file = $request->foto;
+                $extension = "." . $file->getClientOriginalExtension();
+                $nombre_archivo = time() . $nuevo_usuario->id . $extension;
+                $file->move(public_path("imgs/users"), $nombre_archivo);
+                $nuevo_usuario->foto = $nombre_archivo;
+            }
+
             $nuevo_usuario->save();
 
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "users");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN USUARIO',
-                'datos_original' => $datos_original,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN USUARIO", $nuevo_usuario);
 
             DB::commit();
             return redirect()->route("usuarios.index")->with("bien", "Registro realizado");
@@ -170,7 +199,7 @@ class UsuarioController extends Controller
 
     public function show(User $user)
     {
-        return response()->JSON($user->load(["cliente"]));
+        return response()->JSON($user);
     }
 
     public function actualizaAcceso(User $user, Request $request)
@@ -185,38 +214,39 @@ class UsuarioController extends Controller
 
     public function update(User $user, Request $request)
     {
-        $this->validacion['usuario'] = 'required|min:4|unique:users,usuario,' . $user->id;
-        if ($request->password && trim($request->password)) {
-            $this->validacion['password'] = 'required|min:4';
-        } else {
-            unset($request["password"]);
-        }
+        $this->validacion["ci"] = "required|numeric|digits_between:6,10|unique:users,ci," . $user->id;
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($user, "users");
+            $old_user = clone $user;
             $user->update([
-                "usuario" => mb_strtoupper($request->usuario),
-                "nombres" => mb_strtoupper($request->nombres),
-                "apellidos" => mb_strtoupper($request->apellidos),
+                "nombre" => mb_strtoupper($request->nombre),
+                "paterno" => mb_strtoupper($request->paterno),
+                "materno" => mb_strtoupper($request->materno),
+                "ci" => mb_strtoupper($request->ci),
+                "ci_exp" => mb_strtoupper($request->ci_exp),
+                "dir" => mb_strtoupper($request->dir),
+                "correo" => $request->correo,
+                "fono" => mb_strtoupper($request->fono),
                 "acceso" => $request->acceso,
+                "tipo" => mb_strtoupper($request->tipo),
             ]);
-            if ($request->password && trim($request->password)) {
-                $user->password = Hash::make($request->password);
+
+            if ($request->foto) {
+                if ($user->foto && $user->foto != 'default.png') {
+                    \File::delete(public_path("imgs/users/" . $user->foto));
+                }
+                $file = $request->foto;
+                $extension = "." . $file->getClientOriginalExtension();
+                $nombre_archivo = time() . $user->id . $extension;
+                $file->move(public_path("imgs/users"), $nombre_archivo);
+                $user->foto = $nombre_archivo;
             }
+
             $user->save();
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($user, "users");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UN USUARIO',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN USUARIO", $old_user, $user->withoutRelations());
 
             DB::commit();
             return redirect()->route("usuarios.index")->with("bien", "Registro actualizado");
@@ -236,27 +266,14 @@ class UsuarioController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($user, "users");
+            $old_user = clone $user;
             $user->password = Hash::make($request->password);
             $user->save();
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($user, "users");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UN LA CONTRASEÑA DE UN USUARIO',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
-
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ LA CONTRASEÑA DE UN USUARIO", $old_user, $user->withoutRelations());
 
             DB::commit();
-            if ($user->tipo == 'CLIENTE') {
-                return redirect()->route("clientes.index")->with("bien", "Registro actualizado");
-            }
             return redirect()->route("usuarios.index")->with("bien", "Registro actualizado");
         } catch (\Exception $e) {
             DB::rollBack();
@@ -271,29 +288,12 @@ class UsuarioController extends Controller
     {
         DB::beginTransaction();
         try {
-            // $usos = Venta::where("user_id", $user->id)->get();
-            // if (count($usos) > 0) {
-            //     throw ValidationException::withMessages([
-            //         'error' =>  "No es posible eliminar este registro porque esta siendo utilizado por otros registros",
-            //     ]);
-            // }
-
-            // $antiguo = $user->foto;
-            // if ($antiguo != 'default.png') {
-            //     \File::delete(public_path() . '/imgs/users/' . $antiguo);
-            // }
-            $datos_original = HistorialAccion::getDetalleRegistro($user, "users");
+            $old_user = clone $user;
             $user->status = 0;
             $user->save();
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINÓ UN USUARIO',
-                'datos_original' => $datos_original,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ AL USUARIO " . $old_user->usuario, $old_user, $user);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

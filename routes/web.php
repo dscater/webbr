@@ -3,9 +3,11 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\UrbanizacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -70,6 +72,22 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     Route::delete("usuarios/{user}", [UsuarioController::class, 'destroy'])->name("usuarios.destroy");
     Route::resource("usuarios", UsuarioController::class)->only(
         ["index", "store"]
+    );
+
+    // MUNICIPIOS
+    Route::get("municipios/api", [MunicipioController::class, 'api'])->name("municipios.api");
+    Route::get("municipios/paginado", [MunicipioController::class, 'paginado'])->name("municipios.paginado");
+    Route::get("municipios/listado", [MunicipioController::class, 'listado'])->name("municipios.listado");
+    Route::resource("municipios", MunicipioController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
+    );
+
+    // URBANIZACIONS
+    Route::get("urbanizacions/api", [UrbanizacionController::class, 'api'])->name("urbanizacions.api");
+    Route::get("urbanizacions/paginado", [UrbanizacionController::class, 'paginado'])->name("urbanizacions.paginado");
+    Route::get("urbanizacions/listado", [UrbanizacionController::class, 'listado'])->name("urbanizacions.listado");
+    Route::resource("urbanizacions", UrbanizacionController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
     );
 
     // REPORTES

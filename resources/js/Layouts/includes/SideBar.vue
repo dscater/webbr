@@ -561,21 +561,39 @@ const logout = () => {
                         <div class="menu-text">Manzano</div>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a href="" class="menu-link">
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('urbanizacions.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'urbanizacions.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('urbanizacions.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Urbanización</div>
-                    </a>
+                    </Link>
                 </div>
-                <div class="menu-item">
-                    <a href="" class="menu-link">
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('municipios.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'municipios.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('municipios.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Municipio/Ciudad</div>
-                    </a>
+                    </Link>
                 </div>
                 <div
                     v-if="
