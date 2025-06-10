@@ -545,21 +545,39 @@ const logout = () => {
                         <div class="menu-text">Clientes</div>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a href="" class="menu-link">
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('terrenos.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'terrenos.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('terrenos.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Terrenos</div>
-                    </a>
+                    </Link>
                 </div>
-                <div class="menu-item">
-                    <a href="" class="menu-link">
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('manzanos.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'manzanos.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('manzanos.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Manzano</div>
-                    </a>
+                    </Link>
                 </div>
                 <div
                     v-if="

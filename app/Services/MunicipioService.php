@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class MunicipioService
 {
-    private $modulo = "MUNICIPIOs";
+    private $modulo = "MUNICIPIOS";
 
     public function __construct(private HistorialAccionService $historialAccionService) {}
 

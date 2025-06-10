@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-06-2025 a las 21:35:59
+-- Tiempo de generación: 10-06-2025 a las 19:24:58
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -107,7 +107,11 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (9, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"MUNICIPIO 1ASD\", \"created_at\": \"2025-06-09T20:29:29.000000Z\", \"updated_at\": \"2025-06-09T20:30:10.000000Z\", \"fecha_registro\": \"2025-06-09\"}', '{\"id\": 1, \"nombre\": \"MUNICIPIO 1\", \"created_at\": \"2025-06-09T20:29:29.000000Z\", \"updated_at\": \"2025-06-09T20:30:14.000000Z\", \"fecha_registro\": \"2025-06-09\"}', 'MUNICIPIOs', '2025-06-09', '16:30:14', '2025-06-09 20:30:14', '2025-06-09 20:30:14'),
 (10, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"MUNICIPIO 1\", \"created_at\": \"2025-06-09T20:29:29.000000Z\", \"updated_at\": \"2025-06-09T20:30:14.000000Z\", \"fecha_registro\": \"2025-06-09\"}', NULL, 'MUNICIPIOs', '2025-06-09', '16:30:16', '2025-06-09 20:30:16', '2025-06-09 20:30:16'),
 (11, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"MUNICIPIO 1\", \"created_at\": \"2025-06-09T20:30:27.000000Z\", \"updated_at\": \"2025-06-09T20:30:27.000000Z\", \"fecha_registro\": \"2025-06-09\"}', NULL, 'MUNICIPIOs', '2025-06-09', '16:30:27', '2025-06-09 20:30:27', '2025-06-09 20:30:27'),
-(12, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"URBANIZACION 3\", \"created_at\": \"2025-06-09T21:35:06.000000Z\", \"updated_at\": \"2025-06-09T21:35:06.000000Z\", \"municipio_id\": \"1\", \"fecha_registro\": \"2025-06-09\"}', NULL, 'MUNICIPIOs', '2025-06-09', '17:35:06', '2025-06-09 21:35:06', '2025-06-09 21:35:06');
+(12, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"URBANIZACION 3\", \"created_at\": \"2025-06-09T21:35:06.000000Z\", \"updated_at\": \"2025-06-09T21:35:06.000000Z\", \"municipio_id\": \"1\", \"fecha_registro\": \"2025-06-09\"}', NULL, 'MUNICIPIOs', '2025-06-09', '17:35:06', '2025-06-09 21:35:06', '2025-06-09 21:35:06'),
+(13, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA URBANIZACIÓN', '{\"id\": 1, \"nombre\": \"URBANIZACION 3\", \"created_at\": \"2025-06-09T21:35:06.000000Z\", \"updated_at\": \"2025-06-09T21:35:06.000000Z\", \"municipio_id\": 1, \"fecha_registro\": \"2025-06-09\"}', '{\"id\": 1, \"nombre\": \"URBANIZACION 1\", \"created_at\": \"2025-06-09T21:35:06.000000Z\", \"updated_at\": \"2025-06-10T17:53:29.000000Z\", \"municipio_id\": \"1\", \"fecha_registro\": \"2025-06-09\"}', 'URBANIZACIÓN', '2025-06-10', '13:53:29', '2025-06-10 17:53:29', '2025-06-10 17:53:29'),
+(14, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"MANZANO 1\", \"created_at\": \"2025-06-10T17:54:14.000000Z\", \"updated_at\": \"2025-06-10T17:54:14.000000Z\", \"municipio_id\": \"1\", \"fecha_registro\": \"2025-06-10\", \"urbanizacion_id\": \"1\"}', NULL, 'MUNICIPIOs', '2025-06-10', '13:54:14', '2025-06-10 17:54:14', '2025-06-10 17:54:14'),
+(15, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"MANZANO 1\", \"created_at\": \"2025-06-10T17:54:14.000000Z\", \"updated_at\": \"2025-06-10T17:54:14.000000Z\", \"municipio_id\": 1, \"fecha_registro\": \"2025-06-10\", \"urbanizacion_id\": 1}', '{\"id\": 1, \"nombre\": \"MANZANO 1AS\", \"created_at\": \"2025-06-10T17:54:14.000000Z\", \"updated_at\": \"2025-06-10T17:54:19.000000Z\", \"municipio_id\": \"1\", \"fecha_registro\": \"2025-06-10\", \"urbanizacion_id\": \"1\"}', 'MUNICIPIOs', '2025-06-10', '13:54:19', '2025-06-10 17:54:19', '2025-06-10 17:54:19'),
+(16, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN MUNICIPIO', '{\"id\": 1, \"nombre\": \"MANZANO 1AS\", \"created_at\": \"2025-06-10T17:54:14.000000Z\", \"updated_at\": \"2025-06-10T17:54:19.000000Z\", \"municipio_id\": 1, \"fecha_registro\": \"2025-06-10\", \"urbanizacion_id\": 1}', '{\"id\": 1, \"nombre\": \"MANZANO 1\", \"created_at\": \"2025-06-10T17:54:14.000000Z\", \"updated_at\": \"2025-06-10T17:54:22.000000Z\", \"municipio_id\": \"1\", \"fecha_registro\": \"2025-06-10\", \"urbanizacion_id\": \"1\"}', 'MUNICIPIOs', '2025-06-10', '13:54:22', '2025-06-10 17:54:22', '2025-06-10 17:54:22');
 
 -- --------------------------------------------------------
 
@@ -124,6 +128,13 @@ CREATE TABLE `manzanos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `manzanos`
+--
+
+INSERT INTO `manzanos` (`id`, `municipio_id`, `urbanizacion_id`, `nombre`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'MANZANO 1', '2025-06-10', '2025-06-10 17:54:14', '2025-06-10 17:54:22');
 
 -- --------------------------------------------------------
 
@@ -284,7 +295,7 @@ CREATE TABLE `urbanizacions` (
 --
 
 INSERT INTO `urbanizacions` (`id`, `municipio_id`, `nombre`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 1, 'URBANIZACION 3', '2025-06-09', '2025-06-09 21:35:06', '2025-06-09 21:35:06');
+(1, 1, 'URBANIZACION 1', '2025-06-09', '2025-06-09 21:35:06', '2025-06-10 17:53:29');
 
 -- --------------------------------------------------------
 
@@ -445,13 +456,13 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `manzanos`
 --
 ALTER TABLE `manzanos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`

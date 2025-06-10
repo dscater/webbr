@@ -42,6 +42,18 @@ class UrbanizacionController extends Controller
     }
 
     /**
+     * Listado de urbanizacions
+     *
+     * @return JsonResponse
+     */
+    public function listadoPorMunicipio(Request $request): JsonResponse
+    {
+        return response()->JSON([
+            "urbanizacions" => $this->urbanizacionService->listadoPorMunicipio($request->id ?? 0)
+        ]);
+    }
+
+    /**
      * Listado de urbanizacions para portal
      *
      * @return JsonResponse

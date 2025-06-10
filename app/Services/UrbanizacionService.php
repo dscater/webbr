@@ -14,13 +14,20 @@ use Illuminate\Validation\ValidationException;
 
 class UrbanizacionService
 {
-    private $modulo = "MUNICIPIOs";
+    private $modulo = "URBANIZACIÓN";
 
     public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function listado(): Collection
     {
         $urbanizacions = Urbanizacion::with(["municipio"])->select("urbanizacions.*")->get();
+        return $urbanizacions;
+    }
+
+    public function listadoPorMunicipio(int $municipio_id): Collection
+    {
+        $urbanizacions = Urbanizacion::with(["municipio"])->select("urbanizacions.*")
+            ->where("municipio_id", $municipio_id)->get();
         return $urbanizacions;
     }
 
@@ -49,7 +56,7 @@ class UrbanizacionService
             "fecha_registro" => date("Y-m-d")
         ]);
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN MUNICIPIO", $urbanizacion);
+        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UNA URBANIZACIÓN", $urbanizacion);
 
         return $urbanizacion;
     }
@@ -69,7 +76,7 @@ class UrbanizacionService
             "nombre" => mb_strtoupper($datos["nombre"]),
         ]);
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN MUNICIPIO", $old_urbanizacion, $urbanizacion);
+        $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA URBANIZACIÓN", $old_urbanizacion, $urbanizacion);
 
         return $urbanizacion;
     }
@@ -102,7 +109,7 @@ class UrbanizacionService
         $urbanizacion->delete();
 
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN MUNICIPIO", $old_urbanizacion);
+        $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UNA URBANIZACIÓN", $old_urbanizacion);
 
         return true;
     }

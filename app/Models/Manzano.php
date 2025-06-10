@@ -8,4 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 class Manzano extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "municipio_id",
+        "urbanizacion_id",
+        "nombre",
+        "fecha_registro",
+    ];
+
+    protected $appends = ["fecha_registro_t"];
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
+
+    // RELACIONES
+    public function municipio()
+    {
+        return $this->belongsTo(Municipio::class, 'municipio_id');
+    }
+
+    public function urbanizacion()
+    {
+        return $this->belongsTo(Urbanizacion::class, 'urbanizacion_id');
+    }
 }

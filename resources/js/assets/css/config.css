@@ -44,6 +44,20 @@
     font-size: 0.6rem;
 }
 
+.checkboxFormulario {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.checkboxFormulario input[type="checkbox"] {
+    height: 18px;
+    width: 18px;
+    cursor: pointer;
+}
+
 .text-sm {
     font-size: 0.9em;
 }
@@ -375,7 +389,7 @@ html {
     color: var(--principal);
 }
 
-.app-sidebar .menu .menu-item.active>.menu-link .menu-icon{
+.app-sidebar .menu .menu-item.active > .menu-link .menu-icon {
     color: var(--principal);
 }
 
