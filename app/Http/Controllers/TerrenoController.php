@@ -107,7 +107,7 @@ class TerrenoController extends Controller
      */
     public function show(Terreno $terreno): JsonResponse
     {
-        return response()->JSON($terreno);
+        return response()->JSON($terreno->load(["municipio", "urbanizacion", "manzano", "imagens"]));
     }
 
     public function update(Terreno $terreno, TerrenoUpdateRequest $request)

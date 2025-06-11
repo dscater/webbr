@@ -30,6 +30,10 @@ watch(
                 .getElementsByTagName("body")[0]
                 .classList.add("modal-open");
             form = useForm(oTerreno);
+            if (form.id != 0) {
+                cargarUrbanizacion();
+                cargarManzanos();
+            }
         }
     }
 );

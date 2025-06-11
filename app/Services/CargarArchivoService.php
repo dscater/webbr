@@ -22,7 +22,10 @@ class CargarArchivoService
         }
         $extension = "." . $file->getClientOriginalExtension();
         $nombre_archivo .= $extension;
+        
         $file->move($ruta, $nombre_archivo);
+
+        // $file->storeAs(str_replace(public_path(), '', $ruta), $nombre_archivo, 'public');
 
         return $nombre_archivo;
     }

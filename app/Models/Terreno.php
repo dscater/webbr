@@ -55,6 +55,7 @@ class Terreno extends Model
         "costo_contado",
         "costo_credito",
         "publicar",
+        "vendido",
         "fecha_registro",
     ];
 

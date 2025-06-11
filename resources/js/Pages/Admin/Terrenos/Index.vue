@@ -31,7 +31,7 @@ const columns = [
     },
     {
         title: "URBANIZACIÓN",
-        data: "terreno.nombre",
+        data: "urbanizacion.nombre",
     },
     {
         title: "MANZANO",
@@ -40,6 +40,21 @@ const columns = [
     {
         title: "NOMBRE TERRENO",
         data: "nombre",
+    },
+    {
+        title: "PUBLICAR",
+        data: "publicar",
+    },
+    {
+        title: "VENDIDO",
+        data: null,
+        render: function (data, type, row) {
+            let estado = `NO`;
+            if (row.vendido == 1) {
+                estado = "SI";
+            }
+            return estado;
+        },
     },
     {
         title: "FECHA DE REGISTRO",
@@ -208,6 +223,10 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="5%"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
