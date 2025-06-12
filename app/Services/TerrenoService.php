@@ -27,6 +27,59 @@ class TerrenoService
         return $terrenos;
     }
 
+    /**
+     * Lista de terrenos paginado con filtros
+     *
+     * @param integer $length
+     * @param integer $page
+     * @param string $search
+     * @param array $columnsSerachLike
+     * @param array $columnsFilter
+     * @return LengthAwarePaginator
+     */
+    public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
+    {
+        $terrenos = Terreno::with(["imagens", "municipio", "urbanizacion", "manzano"])
+            ->select("terrenos.*");
+
+        $terrenos->where("status", 1);
+
+        // Filtros exactos
+        foreach ($columnsFilter as $key => $value) {
+            if (!is_null($value)) {
+                $terrenos->where("terrenos.$key", $value);
+            }
+        }
+
+        // Filtros por rango
+        foreach ($columnsBetweenFilter as $key => $value) {
+            if (isset($value[0], $value[1])) {
+                $terrenos->whereBetween("terrenos.$key", $value);
+            }
+        }
+
+        // Búsqueda en múltiples columnas con LIKE
+        if (!empty($search) && !empty($columnsSerachLike)) {
+            $terrenos->where(function ($query) use ($search, $columnsSerachLike) {
+                foreach ($columnsSerachLike as $col) {
+                    $query->orWhere("terrenos.$col", "LIKE", "%$search%");
+                }
+            });
+        }
+
+        // Ordenamiento
+        foreach ($orderBy as $value) {
+            if (isset($value[0], $value[1])) {
+                $terrenos->orderBy($value[0], $value[1]);
+            }
+        }
+
+
+        $terrenos = $terrenos->paginate($length, ['*'], 'page', $page);
+        return $terrenos;
+    }
+
+
     public function listadoDataTable(int $length, int $start, int $page, string $search): LengthAwarePaginator
     {
         $terrenos = Terreno::with(["municipio", "urbanizacion", "manzano", "imagens"])->select("terrenos.*");

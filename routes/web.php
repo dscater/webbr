@@ -44,6 +44,8 @@ Route::get("configuracions/getConfiguracion", [ConfiguracionController::class, '
 // PORTAL
 Route::get("urbanizacions/listadoPorMunicipio", [UrbanizacionController::class, 'listadoPorMunicipio'])->name("urbanizacions.listadoPorMunicipio");
 Route::get("manzanos/listadoPorMunicipioUrbanizacion", [ManzanoController::class, 'listadoPorMunicipioUrbanizacion'])->name("manzanos.listadoPorMunicipioUrbanizacion");
+Route::get("terrenos/listadoPaginado", [TerrenoController::class, 'listadoPaginado'])->name("terrenos.listadoPaginado");
+Route::get("terrenos/verProducto/{terreno}", [PortalController::class, 'terreno'])->name("portal.terreno");
 
 // ADMINISTRACION
 Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function () {

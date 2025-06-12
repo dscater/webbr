@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Parametrizacion;
+use App\Models\Terreno;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class PortalController extends Controller
 {
@@ -13,62 +14,15 @@ class PortalController extends Controller
         return Inertia::render("Portal/Inicio");
     }
 
-    public function vehiculos()
+    /**
+     * Ver terreno portal
+     *
+     * @param Terreno $terreno
+     * @return InertiaResponse
+     */
+    public function terreno(Terreno $terreno): InertiaResponse
     {
-        return Inertia::render("Portal/Vehiculos");
-    }
-
-    public function otros_bienes()
-    {
-        return Inertia::render("Portal/OtrosBienes");
-    }
-
-    public function ecologicos()
-    {
-        return Inertia::render("Portal/Ecologicos");
-    }
-
-    public function mis_subastas()
-    {
-        return Inertia::render("Portal/MisSubastas");
-    }
-
-    public function getTerminosCondiciones()
-    {
-        // $terminos_condiciones = view("parcials.terminos")->render();
-        $terminos_condiciones = "";
-        $parametrizacion = Parametrizacion::first();
-        if ($parametrizacion) {
-            $terminos_condiciones = $parametrizacion->terminos_condiciones;
-        }
-
-        return response()->JSON($terminos_condiciones);
-    }
-
-    public function getMensajeVerificaComprobante()
-    {
-        $verificar_comprobante = "";
-        $parametrizacion = Parametrizacion::first();
-        if ($parametrizacion) {
-            $verificar_comprobante = $parametrizacion->verificar_comprobante;
-        }
-
-        return response()->JSON($verificar_comprobante);
-    }
-
-    public function getMensajesParametrizacion()
-    {
-        $verificar_comprobante = "";
-        $comp_rechazado = "";
-        $parametrizacion = Parametrizacion::first();
-        if ($parametrizacion) {
-            $verificar_comprobante = $parametrizacion->verificar_comprobante;
-            $comp_rechazado = $parametrizacion->comp_rechazado;
-        }
-
-        return response()->JSON([
-            "verificar_comprobante" => $verificar_comprobante,
-            "comp_rechazado" => $comp_rechazado,
-        ]);
+        $terreno = $terreno->load(["imagens", "municipio", "urbanizacion", "manzano"]);
+        return Inertia::render("Portal/Terreno", compact("terreno"));
     }
 }

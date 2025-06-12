@@ -46,10 +46,38 @@ class TerrenoController extends Controller
      *
      * @return JsonResponse
      */
-    public function listadoPortal(): JsonResponse
+    public function listadoPaginado(Request $request): JsonResponse
     {
+        $perPage = $request->perPage;
+        $page = (int)($request->input("page", 1));
+        $search = (string)$request->input("search", "");
+        $precioDesde = $request->precioDesde;
+        $precioHasta = $request->precioHasta;
+        $categoria_id = $request->categoria_id;
+        $orderByCol = $request->orderByCol;
+        $desc = $request->desc;
+
+        $columnsSerachLike = ["nombre"];
+        $columnsFilter = [
+            "publicar" => "SI",
+            "vendido" =>  0,
+        ];
+        $columnsBetweenFilter = [
+            "costo_contado" => [$precioDesde, $precioHasta]
+        ];
+
+        $arrayOrderBy = [];
+        if ($orderByCol && $desc) {
+            $arrayOrderBy = [
+                [$orderByCol, $desc]
+            ];
+        }
+
+        $terrenos = $this->terrenoService->listadoPaginado($perPage, $page, $search, $columnsSerachLike, $columnsFilter, $columnsBetweenFilter, $arrayOrderBy);
         return response()->JSON([
-            "terrenos" => $this->terrenoService->listado()
+            "total" => $terrenos->total(),
+            "terrenos" => $terrenos->items(),
+            "lastPage" => $terrenos->lastPage()
         ]);
     }
 
