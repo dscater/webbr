@@ -529,21 +529,56 @@ const logout = () => {
                 >
                     ADMINISTRACIÓN
                 </div>
-                <div class="menu-item">
-                    <a href="" class="menu-link">
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('ventas.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'ventas.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('ventas.index')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Venta de Terrenos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('preventas.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'preventas.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('preventas.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Pre-Venta de Terrenos</div>
-                    </a>
+                    </Link>
                 </div>
-                <div class="menu-item">
-                    <a href="" class="menu-link">
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('clientes.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'clientes.index' ? 'active' : 'none',
+                    ]"
+                >
+                    <Link :href="route('clientes.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Clientes</div>
-                    </a>
+                    </Link>
                 </div>
                 <div
                     v-if="
@@ -628,25 +663,6 @@ const logout = () => {
                             <i class="fa fa-users"></i>
                         </div>
                         <div class="menu-text">Usuarios</div>
-                    </Link>
-                </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('clientes.index')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'usuarios.clientes'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link :href="route('usuarios.clientes')" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa fa-user-friends"></i>
-                        </div>
-                        <div class="menu-text">Clientes</div>
                     </Link>
                 </div>
                 <div

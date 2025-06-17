@@ -9,7 +9,6 @@ class PermisoService
     protected $arrayPermisos = [
         "GERENTE" => [
             "usuarios.api",
-            "municipios.listado",
             "usuarios.index",
             "usuarios.create",
             "usuarios.store",
@@ -58,6 +57,37 @@ class PermisoService
             "terrenos.show",
             "terrenos.update",
             "terrenos.destroy",
+
+            "clientes.api",
+            "clientes.listado",
+            "clientes.index",
+            "clientes.create",
+            "clientes.store",
+            "clientes.edit",
+            "clientes.show",
+            "clientes.update",
+            "clientes.destroy",
+
+            "preventas.api",
+            "preventas.listado",
+            "preventas.index",
+            "preventas.create",
+            "preventas.store",
+            "preventas.edit",
+            "preventas.show",
+            "preventas.update",
+            "preventas.destroy",
+
+            "ventas.api",
+            "ventas.listado",
+            "ventas.index",
+            "ventas.create",
+            "ventas.store",
+            "ventas.edit",
+            "ventas.show",
+            "ventas.update",
+            "ventas.destroy",
+
 
             "configuracions.index",
             "configuracions.create",

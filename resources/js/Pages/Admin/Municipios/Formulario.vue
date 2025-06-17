@@ -51,8 +51,8 @@ const listUsuarios = ref([]);
 
 const tituloDialog = computed(() => {
     return accion.value == 0
-        ? `<i class="fa fa-plus"></i> Nueva Municipio`
-        : `<i class="fa fa-edit"></i> Editar Municipio`;
+        ? `<i class="fa fa-plus"></i> Nuevo Municipio/Ciudad`
+        : `<i class="fa fa-edit"></i> Editar Municipio/Ciudad`;
 });
 
 const enviarFormulario = () => {

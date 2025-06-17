@@ -1,17 +1,20 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ManzanoController;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\PortalController;
+use App\Http\Controllers\PreventaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TerrenoController;
 use App\Http\Controllers\UrbanizacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -109,6 +112,30 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     Route::get("terrenos/paginado", [TerrenoController::class, 'paginado'])->name("terrenos.paginado");
     Route::get("terrenos/listado", [TerrenoController::class, 'listado'])->name("terrenos.listado");
     Route::resource("terrenos", TerrenoController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
+    );
+
+    // CLIENTES
+    Route::get("clientes/api", [ClienteController::class, 'api'])->name("clientes.api");
+    Route::get("clientes/paginado", [ClienteController::class, 'paginado'])->name("clientes.paginado");
+    Route::get("clientes/listado", [ClienteController::class, 'listado'])->name("clientes.listado");
+    Route::resource("clientes", ClienteController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
+    );
+
+    // PREVENTA
+    Route::get("preventas/api", [PreventaController::class, 'api'])->name("preventas.api");
+    Route::get("preventas/paginado", [PreventaController::class, 'paginado'])->name("preventas.paginado");
+    Route::get("preventas/listado", [PreventaController::class, 'listado'])->name("preventas.listado");
+    Route::resource("preventas", PreventaController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
+    );
+
+    // VENTAS
+    Route::get("ventas/api", [VentaController::class, 'api'])->name("ventas.api");
+    Route::get("ventas/paginado", [VentaController::class, 'paginado'])->name("ventas.paginado");
+    Route::get("ventas/listado", [VentaController::class, 'listado'])->name("ventas.listado");
+    Route::resource("ventas", VentaController::class)->only(
         ["index", "store", "edit", "show", "update", "destroy"]
     );
 
