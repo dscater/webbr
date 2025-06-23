@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 17-06-2025 a las 14:25:06
+-- Tiempo de generación: 23-06-2025 a las 18:27:00
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -47,7 +47,13 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `fono`, `correo`, `dir`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 'FRANZ', 'CONDORI', 'QUISPE', '23422323', 'LP', '65555555', 'franz@gmail.com', 'LOS PEDREGALES', '2025-06-17', '2025-06-17 13:45:13', '2025-06-17 13:45:13');
+(1, 'FRANZ', 'CONDORI', 'QUISPE', '23422323', 'LP', '65555555', 'franz@gmail.com', 'LOS PEDREGALES', '2025-06-17', '2025-06-17 13:45:13', '2025-06-17 13:45:13'),
+(2, 'JUAN', 'CARVAJAL', 'GONZALES', '54544554', 'LP', '4433434', 'juan@gmail.com', 'LOS PEDREGALES', '2025-06-23', '2025-06-23 13:18:54', '2025-06-23 13:18:54'),
+(20, 'ALBERTO', 'GONZALES', 'CASAS', '12345678', 'CB', '67655656', 'alberto@gmail.com', 'ZONA LOS PEDREGALES', '2025-06-23', '2025-06-23 18:23:18', '2025-06-23 18:23:18'),
+(21, 'CARLOS', 'SUAREZ', '', '544454545', 'SC', '433434334', 'carlos@gmail.com', 'LOS PEDREGALES', '2025-06-23', '2025-06-23 18:24:30', '2025-06-23 18:24:30'),
+(22, 'MARIA', 'PRADO', '', '54454545', 'CB', '433443', 'maria@gmail.com', 'ZONA LOS OLIVOS', '2025-06-23', '2025-06-23 18:25:34', '2025-06-23 18:25:34'),
+(23, 'CARLA', 'PRADO', '', '322323', 'CH', '433434', 'carla@gmail.com', 'LOSPEDREGALES', '2025-06-23', '2025-06-23 18:26:11', '2025-06-23 18:26:11'),
+(24, 'FRANZ', 'TORREZ', '', '232323', 'CB', '43343434', 'franz@gmail.com', 'LOS PEDREGALES #2323', '2025-06-23', '2025-06-23 18:26:48', '2025-06-23 18:26:48');
 
 -- --------------------------------------------------------
 
@@ -137,7 +143,10 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (39, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PRE-VENTA', '{\"id\": 1, \"estado\": \"PRE-VENTA\", \"cliente_id\": \"1\", \"created_at\": \"2025-06-17T14:22:43.000000Z\", \"terreno_id\": \"10\", \"updated_at\": \"2025-06-17T14:22:43.000000Z\", \"descripcion\": \"DESCRIPCION PREVENTA NRO. 1\", \"fecha_registro\": \"2025-06-17\"}', NULL, 'PRE-VENTAS', '2025-06-17', '10:22:43', '2025-06-17 14:22:43', '2025-06-17 14:22:43'),
 (40, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA PRE-VENTA', '{\"id\": 1, \"estado\": \"PRE-VENTA\", \"cliente_id\": 1, \"created_at\": \"2025-06-17T14:22:43.000000Z\", \"terreno_id\": 10, \"updated_at\": \"2025-06-17T14:22:43.000000Z\", \"descripcion\": \"DESCRIPCION PREVENTA NRO. 1\", \"fecha_registro\": \"2025-06-17\"}', '{\"id\": 1, \"estado\": \"PRE-VENTA\", \"cliente_id\": \"1\", \"created_at\": \"2025-06-17T14:22:43.000000Z\", \"terreno_id\": \"11\", \"updated_at\": \"2025-06-17T14:23:12.000000Z\", \"descripcion\": \"DESCRIPCION PREVENTA NRO. 1\", \"fecha_registro\": \"2025-06-17\"}', 'PRE-VENTAS', '2025-06-17', '10:23:12', '2025-06-17 14:23:12', '2025-06-17 14:23:12'),
 (41, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA PRE-VENTA', '{\"id\": 1, \"estado\": \"PRE-VENTA\", \"cliente_id\": 1, \"created_at\": \"2025-06-17T14:22:43.000000Z\", \"terreno_id\": 11, \"updated_at\": \"2025-06-17T14:23:12.000000Z\", \"descripcion\": \"DESCRIPCION PREVENTA NRO. 1\", \"fecha_registro\": \"2025-06-17\"}', NULL, 'PRE-VENTAS', '2025-06-17', '10:23:47', '2025-06-17 14:23:47', '2025-06-17 14:23:47'),
-(42, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PRE-VENTA', '{\"id\": 1, \"estado\": \"PRE-VENTA\", \"cliente_id\": \"1\", \"created_at\": \"2025-06-17T14:24:14.000000Z\", \"terreno_id\": \"10\", \"updated_at\": \"2025-06-17T14:24:14.000000Z\", \"descripcion\": \"DESCRIPCION PREVENTA NRO1\", \"fecha_registro\": \"2025-06-17\"}', NULL, 'PRE-VENTAS', '2025-06-17', '10:24:14', '2025-06-17 14:24:14', '2025-06-17 14:24:14');
+(42, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PRE-VENTA', '{\"id\": 1, \"estado\": \"PRE-VENTA\", \"cliente_id\": \"1\", \"created_at\": \"2025-06-17T14:24:14.000000Z\", \"terreno_id\": \"10\", \"updated_at\": \"2025-06-17T14:24:14.000000Z\", \"descripcion\": \"DESCRIPCION PREVENTA NRO1\", \"fecha_registro\": \"2025-06-17\"}', NULL, 'PRE-VENTAS', '2025-06-17', '10:24:14', '2025-06-17 14:24:14', '2025-06-17 14:24:14'),
+(43, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', '{\"ci\": \"54544554\", \"id\": 2, \"dir\": \"LOS PEDREGALES\", \"fono\": \"4433434\", \"ci_exp\": \"LP\", \"correo\": \"juan@gmail.com\", \"nombre\": \"JUAN\", \"materno\": \"GONZALES\", \"paterno\": \"CARVAJAL\", \"created_at\": \"2025-06-23T13:18:54.000000Z\", \"updated_at\": \"2025-06-23T13:18:54.000000Z\", \"fecha_registro\": \"2025-06-23\"}', NULL, 'CLIENTES', '2025-06-23', '09:18:54', '2025-06-23 13:18:54', '2025-06-23 13:18:54'),
+(44, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PRE-VENTA', '{\"id\": 2, \"estado\": \"PRE-VENTA\", \"cliente_id\": \"2\", \"created_at\": \"2025-06-23T13:19:07.000000Z\", \"terreno_id\": \"10\", \"updated_at\": \"2025-06-23T13:19:07.000000Z\", \"descripcion\": \"DESCR PREVENTA CLIENTE 2\", \"fecha_registro\": \"2025-06-23\"}', NULL, 'PRE-VENTAS', '2025-06-23', '09:19:07', '2025-06-23 13:19:07', '2025-06-23 13:19:07'),
+(45, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', '{\"id\": 1, \"cliente_id\": 1, \"created_at\": \"2025-06-23T14:04:53.000000Z\", \"terreno_id\": \"10\", \"updated_at\": \"2025-06-23T14:04:53.000000Z\", \"descripcion\": \"VENTA TERRENO 1\", \"preventa_id\": \"1\", \"fecha_registro\": \"2025-06-23\"}', NULL, 'VENTAS', '2025-06-23', '10:04:53', '2025-06-23 14:04:53', '2025-06-23 14:04:53');
 
 -- --------------------------------------------------------
 
@@ -237,7 +246,13 @@ CREATE TABLE `preventas` (
 --
 
 INSERT INTO `preventas` (`id`, `terreno_id`, `cliente_id`, `descripcion`, `estado`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 10, 1, 'DESCRIPCION PREVENTA NRO1', 'PRE-VENTA', '2025-06-17', '2025-06-17 14:24:14', '2025-06-17 14:24:14');
+(1, 10, 1, 'DESCRIPCION PREVENTA NRO1', 'VENDIDO', '2025-06-17', '2025-06-17 14:24:14', '2025-06-23 14:04:53'),
+(2, 10, 2, 'DESCR PREVENTA CLIENTE 2', 'PRE-VENTA', '2025-06-23', '2025-06-23 13:19:07', '2025-06-23 13:19:07'),
+(9, 11, 20, 'PRE-VENTA DEL TERRENO TERRENO MUN 2 MANZANO 1 POR EL CLIENTE ALBERTO GONZALES CASAS', 'PRE-VENTA', '2025-06-23', '2025-06-23 18:23:18', '2025-06-23 18:23:18'),
+(10, 11, 21, 'PRE-VENTA DEL TERRENO TERRENO MUN 2 MANZANO 1 POR EL CLIENTE CARLOS SUAREZ', 'PRE-VENTA', '2025-06-23', '2025-06-23 18:24:30', '2025-06-23 18:24:30'),
+(11, 11, 22, 'PRE-VENTA DEL TERRENO TERRENO MUN 2 MANZANO 1 POR EL CLIENTE MARIA PRADO', 'PRE-VENTA', '2025-06-23', '2025-06-23 18:25:34', '2025-06-23 18:25:34'),
+(12, 11, 23, 'PRE-VENTA DEL TERRENO TERRENO MUN 2 MANZANO 1 POR EL CLIENTE CARLA PRADO', 'PRE-VENTA', '2025-06-23', '2025-06-23 18:26:11', '2025-06-23 18:26:11'),
+(13, 11, 24, 'PRE-VENTA DEL TERRENO TERRENO MUN 2 MANZANO 1 POR EL CLIENTE FRANZ TORREZ', 'PRE-VENTA', '2025-06-23', '2025-06-23 18:26:48', '2025-06-23 18:26:48');
 
 -- --------------------------------------------------------
 
@@ -304,7 +319,7 @@ CREATE TABLE `terrenos` (
 --
 
 INSERT INTO `terrenos` (`id`, `municipio_id`, `urbanizacion_id`, `manzano_id`, `nombre`, `tipo_calle`, `ancho_calle`, `conectividad`, `trafico`, `tipo_zona`, `agua_potable`, `alcantarillado`, `energia_electrica`, `gas_natural`, `alumbrado`, `recoleccion_basura`, `conexion_internet`, `escuelas`, `centros_educativos`, `hospitales`, `centros_salud`, `centros_comerciales`, `mercados`, `tiendas`, `parques`, `plazas`, `espacios_recreativos`, `iglesias`, `oficinas_gubarnamentales`, `oficinas_servicios`, `bancos`, `areas_verdes`, `nivel_urbanizacion`, `seguro`, `limpio`, `en_desarrollo`, `viviendas`, `negocios`, `bodegas`, `galpones`, `terrenos_baldios`, `topografia_entorno`, `superficie_terreno`, `costo_contado`, `costo_credito`, `publicar`, `vendido`, `status`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(10, 1, 1, 1, 'TERRENO 1', 'Pavimentada', 'Autopista', 'Avenidas Principales', 'Bajo', 'Residencial', 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Bajo', 'Consolidado', 1, 1, 0, 1, 0, 0, 1, 0, 'Plano', '1000 mt2', 10000.00, 13000.00, 'SI', 0, 1, '2025-06-11', '2025-06-11 20:51:05', '2025-06-11 21:03:03'),
+(10, 1, 1, 1, 'TERRENO 1', 'Pavimentada', 'Autopista', 'Avenidas Principales', 'Bajo', 'Residencial', 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Bajo', 'Consolidado', 1, 1, 0, 1, 0, 0, 1, 0, 'Plano', '1000 mt2', 10000.00, 13000.00, 'SI', 1, 1, '2025-06-11', '2025-06-11 20:51:05', '2025-06-23 14:04:53'),
 (11, 2, 2, 2, 'TERRENO MUN 2 MANZANO 1', 'Pavimentada', 'Autopista', 'Autopistas', 'Medio', 'Residencial', 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 'Medio', 'En Crecimiento', 1, 0, 0, 1, 0, 0, 1, 0, 'Plano', '4000 mt2', 9000.00, 12000.00, 'SI', 0, 1, '2025-06-12', '2025-06-12 19:38:12', '2025-06-12 19:38:28');
 
 -- --------------------------------------------------------
@@ -398,12 +413,21 @@ INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_
 CREATE TABLE `ventas` (
   `id` bigint UNSIGNED NOT NULL,
   `terreno_id` bigint UNSIGNED NOT NULL,
+  `preventa_id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
   `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_registro` date DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id`, `terreno_id`, `preventa_id`, `cliente_id`, `descripcion`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
+(1, 10, 1, 1, 'VENTA TERRENO 1', '2025-06-23', 1, '2025-06-23 14:04:53', '2025-06-23 14:04:53');
 
 --
 -- Índices para tablas volcadas
@@ -501,7 +525,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracions`
@@ -513,7 +537,7 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `manzanos`
@@ -537,7 +561,7 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de la tabla `preventas`
 --
 ALTER TABLE `preventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `terrenos`
@@ -567,7 +591,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas

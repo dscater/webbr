@@ -70,6 +70,7 @@ class PermisoService
 
             "preventas.api",
             "preventas.listado",
+            "preventas.listadoPorTerreno",
             "preventas.index",
             "preventas.create",
             "preventas.store",
@@ -87,7 +88,6 @@ class PermisoService
             "ventas.show",
             "ventas.update",
             "ventas.destroy",
-
 
             "configuracions.index",
             "configuracions.create",

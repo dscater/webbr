@@ -127,6 +127,17 @@ class ClienteController extends Controller
         }
     }
 
+    public function buscarPorCi(Request $request)
+    {
+        $ci = $request->ci;
+        $cliente = null;
+        if (trim($ci) != "") {
+            $cliente = Cliente::where("ci", $ci)->get()->first();
+        }
+
+        return response()->JSON($cliente);
+    }
+
     /**
      * Eliminar cliente
      *

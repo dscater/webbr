@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("terreno_id");
+            $table->unsignedBigInteger("preventa_id");
             $table->unsignedBigInteger("cliente_id");
             $table->text("descripcion");
             $table->date("fecha_registro")->nullable();
+            $table->integer("status")->default(1);
             $table->timestamps();
 
             $table->foreign("terreno_id")->on("terrenos")->references("id");

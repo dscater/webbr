@@ -34,10 +34,16 @@ class TerrenoController extends Controller
      *
      * @return JsonResponse
      */
-    public function listado(): JsonResponse
+    public function listado(Request $request): JsonResponse
     {
+
+        $filtros = [
+            "sin_vender" => $request->sin_vender,
+            "venta_id" => $request->venta_id,
+        ];
+
         return response()->JSON([
-            "terrenos" => $this->terrenoService->listado()
+            "terrenos" => $this->terrenoService->listado($filtros)
         ]);
     }
 

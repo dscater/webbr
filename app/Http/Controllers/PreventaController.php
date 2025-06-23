@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PreventaPortalRequest;
 use App\Http\Requests\PreventaStoreRequest;
 use App\Http\Requests\PreventaUpdateRequest;
 use App\Models\Preventa;
+use App\Models\Terreno;
+use App\Services\ClienteService;
 use App\Services\PreventaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +20,7 @@ use Inertia\Response as InertiaResponse;
 
 class PreventaController extends Controller
 {
-    public function __construct(private PreventaService $preventaService) {}
+    public function __construct(private PreventaService $preventaService, private ClienteService $clienteService) {}
 
     /**
      * Página index
@@ -40,6 +43,14 @@ class PreventaController extends Controller
             "preventas" => $this->preventaService->listado()
         ]);
     }
+
+    public function listadoPorTerreno(Request $request): JsonResponse
+    {
+        return response()->JSON([
+            "preventas" => $this->preventaService->listadoPorTerreno($request->terreno_id)
+        ]);
+    }
+
 
     /**
      * Listado de preventas para portal
@@ -91,6 +102,32 @@ class PreventaController extends Controller
             $this->preventaService->crear($request->validated());
             DB::commit();
             return redirect()->route("preventas.index")->with("bien", "Registro realizado");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw ValidationException::withMessages([
+                'error' =>  $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function registrarPreventaPortal(PreventaPortalRequest $request, Terreno $terreno)
+    {
+        DB::beginTransaction();
+        try {
+            //verificar cliente
+            $id_cliente = $request->input("id", "");
+            if ($id_cliente) {
+                $cliente = Cliente::findOrFail($id_cliente);
+                $this->clienteService->actualizar($request->validated(), $cliente);
+            } else {
+                $cliente = $this->clienteService->crear($request->validated());
+            }
+
+            // crear el Preventa
+            $this->preventaService->crearPorPortal($request->validated(), $terreno, $cliente);
+            DB::commit();
+
+            return redirect()->route("portal.terreno", $terreno->id)->with("bien", "Registro realizado");
         } catch (\Exception $e) {
             DB::rollBack();
             throw ValidationException::withMessages([

@@ -8,6 +8,7 @@ use App\Models\Preventa;
 use App\Models\Venta;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -53,8 +54,9 @@ class ClienteService
             "fecha_registro" => date("Y-m-d")
         ]);
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN CLIENTE", $cliente);
-
+        if (Auth::check()) {
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN CLIENTE", $cliente);
+        }
         return $cliente;
     }
 
@@ -79,8 +81,9 @@ class ClienteService
             "dir" => mb_strtoupper($datos["dir"]),
         ]);
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN CLIENTE", $old_cliente, $cliente);
-
+        if (Auth::check()) {
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN CLIENTE", $old_cliente, $cliente);
+        }
         return $cliente;
     }
 

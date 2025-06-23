@@ -18,12 +18,29 @@ class TerrenoService
 
     public function __construct(private HistorialAccionService $historialAccionService, private TerrenoImagenService $terrenoImagenService) {}
 
-    public function listado(): Collection
+    public function listado(array $filtros): Collection
     {
         $terrenos = Terreno::with(["municipio", "urbanizacion", "manzano", "imagens"])
-            ->select("terrenos.*")
-            ->where("status", 1)
-            ->get();
+            ->select("terrenos.*");
+
+        if (count($filtros) > 0) {
+            foreach ($filtros as $key_filtro => $filtro) {
+                if ($key_filtro == 'sin_vender') {
+                    $terrenos->where("vendido", 0);
+                }
+                if ($key_filtro == 'venta_id') {
+                    $venta = Venta::find($filtro);
+                    if ($venta) {
+                        $terrenos->orWhere("id", $venta->terreno_id);
+                        // $terrenos->where(function ($query) use ($venta) {
+                        //     $query->orWhere("id", $venta->terreno_id);
+                        // });
+                    }
+                }
+            }
+        }
+
+        $terrenos = $terrenos->where("status", 1)->get();
         return $terrenos;
     }
 

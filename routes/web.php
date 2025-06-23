@@ -49,6 +49,8 @@ Route::get("urbanizacions/listadoPorMunicipio", [UrbanizacionController::class, 
 Route::get("manzanos/listadoPorMunicipioUrbanizacion", [ManzanoController::class, 'listadoPorMunicipioUrbanizacion'])->name("manzanos.listadoPorMunicipioUrbanizacion");
 Route::get("terrenos/listadoPaginado", [TerrenoController::class, 'listadoPaginado'])->name("terrenos.listadoPaginado");
 Route::get("terrenos/verProducto/{terreno}", [PortalController::class, 'terreno'])->name("portal.terreno");
+Route::post("preventas/registrarPreventaPortal/{terreno}", [PreventaController::class, 'registrarPreventaPortal'])->name("preventas.registrarPreventaPortal");
+Route::get("clientes/buscarPorCi", [ClienteController::class, 'buscarPorCi'])->name("clientes.buscarPorCi");
 
 // ADMINISTRACION
 Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function () {
@@ -127,6 +129,7 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     Route::get("preventas/api", [PreventaController::class, 'api'])->name("preventas.api");
     Route::get("preventas/paginado", [PreventaController::class, 'paginado'])->name("preventas.paginado");
     Route::get("preventas/listado", [PreventaController::class, 'listado'])->name("preventas.listado");
+    Route::get("preventas/listadoPorTerreno", [PreventaController::class, 'listadoPorTerreno'])->name("preventas.listadoPorTerreno");
     Route::resource("preventas", PreventaController::class)->only(
         ["index", "store", "edit", "show", "update", "destroy"]
     );
