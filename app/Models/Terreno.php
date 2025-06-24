@@ -37,7 +37,7 @@ class Terreno extends Model
         "plazas",
         "espacios_recreativos",
         "iglesias",
-        "oficinas_gubarnamentales",
+        "oficinas_gubernamentales",
         "oficinas_servicios",
         "bancos",
         "areas_verdes",

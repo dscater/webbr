@@ -143,14 +143,22 @@ onBeforeUnmount(() => {});
         <div class="product-info col-md-6 pt-4 pb-4 px-4">
             <div class="product-info-detail pb-3">
                 <h4 class="product-title">{{ terreno.nombre }}</h4>
-                <span class="text-muted">{{ terreno.nombre }}</span>
-                <p class="pull-right mb-0 mt-2">{{ terreno.descripcion }}</p>
+                <span class="text-muted">{{ terreno.municipio.nombre }}</span> - <span class="text-muted">{{ terreno.urbanizacion.nombre }}</span>
+                <!-- <p class="pull-right mb-0 mt-2">{{ terreno.descripcion }}</p> -->
             </div>
             <div class="pt-4 pb-3">
                 <div class="product-price mb-3">
                     <div class="price">
+                        Contado:
                         $us
                         {{ getFormatoMoneda(terreno.costo_contado) }}
+                    </div>
+                </div>
+                <div class="product-price mb-3">
+                    <div class="price">
+                        Credito:
+                        $us
+                        {{ getFormatoMoneda(terreno.costo_credito) }}
                     </div>
                 </div>
                 <button

@@ -29,7 +29,7 @@ const oTerreno = reactive({
     plazas: 0,
     espacios_recreativos: 0,
     iglesias: 0,
-    oficinas_gubarnamentales: 0,
+    oficinas_gubernamentales: 0,
     oficinas_servicios: 0,
     bancos: 0,
     areas_verdes: "",
@@ -83,7 +83,7 @@ export const useTerrenos = () => {
             oTerreno.plazas = item.plazas;
             oTerreno.espacios_recreativos = item.espacios_recreativos;
             oTerreno.iglesias = item.iglesias;
-            oTerreno.oficinas_gubarnamentales = item.oficinas_gubarnamentales;
+            oTerreno.oficinas_gubernamentales = item.oficinas_gubernamentales;
             oTerreno.oficinas_servicios = item.oficinas_servicios;
             oTerreno.bancos = item.bancos;
             oTerreno.areas_verdes = item.areas_verdes;
@@ -138,7 +138,7 @@ export const useTerrenos = () => {
         oTerreno.plazas = 0;
         oTerreno.espacios_recreativos = 0;
         oTerreno.iglesias = 0;
-        oTerreno.oficinas_gubarnamentales = 0;
+        oTerreno.oficinas_gubernamentales = 0;
         oTerreno.oficinas_servicios = 0;
         oTerreno.bancos = 0;
         oTerreno.areas_verdes = "";

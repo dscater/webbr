@@ -87,6 +87,23 @@ class TerrenoController extends Controller
         ]);
     }
 
+    public function busqueda(Request $request): JsonResponse
+    {
+        $perPage = $request->perPage;
+        $page = (int)($request->input("page", 1));
+        $valores = $request->all();
+        unset($valores["page"]);
+        unset($valores["perPage"]);
+        unset($valores["nombre"]);
+        $terrenos = $this->terrenoService->listadoBusqueda($perPage, $page, $valores);
+        return response()->JSON([
+            "total" => $terrenos->total(),
+            "terrenos" => $terrenos->items(),
+            "lastPage" => $terrenos->lastPage()
+        ]);
+    }
+
+
     /**
      * Endpoint para obtener la lista de terrenos paginado para datatable
      *

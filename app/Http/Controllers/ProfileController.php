@@ -28,12 +28,13 @@ class ProfileController extends Controller
     }
     public function profile_cliente(Request $request)
     {
-        if (Auth::check()) {
-            return Inertia::render('Portal/Perfil', [
-                'user' => $request->user(),
-            ]);
-        }
-        return redirect()->route("portal.index");
+        return redirect()->route("profile.edit");
+        // if (Auth::check()) {
+        //     return Inertia::render('Portal/Perfil', [
+        //         'user' => $request->user(),
+        //     ]);
+        // }
+        // return redirect()->route("portal.index");
     }
 
     public function updateInfoCliente(Request $request): RedirectResponse

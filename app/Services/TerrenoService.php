@@ -96,6 +96,31 @@ class TerrenoService
         return $terrenos;
     }
 
+    public function listadoBusqueda(int $length, int $page, array $valores = []): LengthAwarePaginator
+    {
+        $terrenos = [];
+        $total = 0;
+        do {
+            $terrenos = Terreno::with(["imagens", "municipio", "urbanizacion", "manzano"])
+                ->select("terrenos.*");
+            $terrenos->where("status", 1);
+            $terrenos->where("vendido", 0);
+            foreach ($valores as $key_valor => $valor) {
+                if ($key_valor == 'superficie_terreno') {
+                    $terrenos->where($key_valor, "LIKE", "%$valor%");
+                } else {
+                    $terrenos->where($key_valor, $valor);
+                }
+            }
+            $terrenos = $terrenos->paginate($length, ['*'], 'page', $page);
+            $total = $terrenos->total();
+            if ($total == 0) {
+                array_pop($valores);
+            }
+        } while ($total == 0 && count($valores) > 0);
+        return $terrenos;
+    }
+
 
     public function listadoDataTable(int $length, int $start, int $page, string $search): LengthAwarePaginator
     {
@@ -146,7 +171,7 @@ class TerrenoService
             "plazas" => $datos["plazas"],
             "espacios_recreativos" => $datos["espacios_recreativos"],
             "iglesias" => $datos["iglesias"],
-            "oficinas_gubarnamentales" => $datos["oficinas_gubarnamentales"],
+            "oficinas_gubernamentales" => $datos["oficinas_gubernamentales"],
             "oficinas_servicios" => $datos["oficinas_servicios"],
             "bancos" => $datos["bancos"],
             "areas_verdes" => $datos["areas_verdes"],
@@ -224,7 +249,7 @@ class TerrenoService
             "plazas" => $datos["plazas"],
             "espacios_recreativos" => $datos["espacios_recreativos"],
             "iglesias" => $datos["iglesias"],
-            "oficinas_gubarnamentales" => $datos["oficinas_gubarnamentales"],
+            "oficinas_gubernamentales" => $datos["oficinas_gubernamentales"],
             "oficinas_servicios" => $datos["oficinas_servicios"],
             "bancos" => $datos["bancos"],
             "areas_verdes" => $datos["areas_verdes"],

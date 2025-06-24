@@ -92,6 +92,7 @@ class PermisoService
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",
+            "configuracions.update",
             "configuracions.destroy",
 
             "reportes.usuarios",

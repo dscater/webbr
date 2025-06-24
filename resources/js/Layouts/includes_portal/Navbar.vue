@@ -124,12 +124,12 @@ onMounted(() => {
                                 <!-- <span class="arrow top"></span> -->
                             </a>
                             <div class="dropdown-menu">
-                                <Link
-                                    v-if="user.role_id != 2"
+                                <a
+                                    v-if="user"
                                     :href="route('profile.edit')"
                                     class="dropdown-item"
                                     href=""
-                                    >Perfil</Link
+                                    >Perfil</a
                                 >
                                 <Link
                                     v-if="user.role_id == 2"

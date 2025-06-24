@@ -52,6 +52,12 @@ Route::get("terrenos/verProducto/{terreno}", [PortalController::class, 'terreno'
 Route::post("preventas/registrarPreventaPortal/{terreno}", [PreventaController::class, 'registrarPreventaPortal'])->name("preventas.registrarPreventaPortal");
 Route::get("clientes/buscarPorCi", [ClienteController::class, 'buscarPorCi'])->name("clientes.buscarPorCi");
 
+Route::get("municipios/listado", [MunicipioController::class, 'listado'])->name("municipios.listado");
+Route::get("urbanizacions/listado", [UrbanizacionController::class, 'listado'])->name("urbanizacions.listado");
+Route::get("manzanos/listado", [ManzanoController::class, 'listado'])->name("manzanos.listado");
+Route::get("busqueda", [TerrenoController::class, 'busqueda'])->name("terrenos.busqueda");
+
+
 // ADMINISTRACION
 Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function () {
     // INICIO
@@ -88,7 +94,6 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // MUNICIPIOS
     Route::get("municipios/api", [MunicipioController::class, 'api'])->name("municipios.api");
     Route::get("municipios/paginado", [MunicipioController::class, 'paginado'])->name("municipios.paginado");
-    Route::get("municipios/listado", [MunicipioController::class, 'listado'])->name("municipios.listado");
     Route::resource("municipios", MunicipioController::class)->only(
         ["index", "store", "edit", "show", "update", "destroy"]
     );
@@ -96,7 +101,6 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // URBANIZACIONS
     Route::get("urbanizacions/api", [UrbanizacionController::class, 'api'])->name("urbanizacions.api");
     Route::get("urbanizacions/paginado", [UrbanizacionController::class, 'paginado'])->name("urbanizacions.paginado");
-    Route::get("urbanizacions/listado", [UrbanizacionController::class, 'listado'])->name("urbanizacions.listado");
     Route::resource("urbanizacions", UrbanizacionController::class)->only(
         ["index", "store", "edit", "show", "update", "destroy"]
     );
@@ -104,7 +108,6 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // MANZANOS
     Route::get("manzanos/api", [ManzanoController::class, 'api'])->name("manzanos.api");
     Route::get("manzanos/paginado", [ManzanoController::class, 'paginado'])->name("manzanos.paginado");
-    Route::get("manzanos/listado", [ManzanoController::class, 'listado'])->name("manzanos.listado");
     Route::resource("manzanos", ManzanoController::class)->only(
         ["index", "store", "edit", "show", "update", "destroy"]
     );

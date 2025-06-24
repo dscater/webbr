@@ -11,6 +11,7 @@ import { useAxios } from "@/composables/axios/useAxios";
 import { useConfiguracion } from "@/composables/configuracion/useConfiguracion";
 import MiPaginacion from "@/Components/MiPaginacion.vue";
 import { useFormater } from "@/composables/useFormater";
+import Busqueda from "./Busqueda.vue";
 const { getFormatoMoneda } = useFormater();
 
 const { oConfiguracion } = useConfiguracion();
@@ -18,6 +19,8 @@ const { props: props_page } = usePage();
 const user = ref(props_page.auth?.user);
 const url_asset = ref(props_page.url_assets);
 
+const accion_dialog = ref(0);
+const open_dialog = ref(false);
 const listTerrenos = ref([]);
 const registrosFila1 = ref([]);
 const registrosFila2 = ref([]);
@@ -57,6 +60,20 @@ const obtenerTerrenos = async () => {
     if (paramsTerrenos.value.search.trim() != "") {
         muestraDescResultados.value = true;
     }
+};
+
+const abrirBusquedaInteligente = () => {
+    accion_dialog.value = 0;
+    open_dialog.value = true;
+};
+
+const cargarResultados = (result) => {
+    registrosFila1.value = result.terrenos.splice(0, 3);
+    registrosFila2.value = result.terrenos.splice(0, 3);
+    registrosFila3.value = result.terrenos.splice(0, 3);
+    dataPaginacion.value.totalData = result.total;
+    dataPaginacion.value.currentPage = 1;
+    dataPaginacion.value.lastPage = result.lastPage;
 };
 
 const updatePage = (value) => {
@@ -102,8 +119,8 @@ onMounted(() => {
 });
 </script>
 <template>
-    <!-- BEGIN #vehiculos -->
-    <div id="vehiculos" class="seccion_categoria vehiculos">
+    <!-- BEGIN #terrenos -->
+    <div id="terrenos" class="seccion_categoria terrenos">
         <!-- BEGIN container -->
         <div class="container mb-0">
             <div class="row">
@@ -122,9 +139,7 @@ onMounted(() => {
                             <h4 class="title">Buscar por:</h4>
                             <form @submit.prevent="obtenerTerrenos">
                                 <div class="mb-3">
-                                    <label class="form-label"
-                                        >Nombre</label
-                                    >
+                                    <label class="form-label">Nombre</label>
                                     <input
                                         type="text"
                                         class="form-control input-sm"
@@ -167,7 +182,7 @@ onMounted(() => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-30px">
+                                <div class="mb-10px">
                                     <button
                                         type="submit"
                                         class="btn btn-sm btn-theme btn-dark w-100"
@@ -176,6 +191,19 @@ onMounted(() => {
                                             class="fa fa-search fa-fw me-1 ms-n3"
                                         ></i>
                                         BUSCAR
+                                    </button>
+                                </div>
+                                <hr />
+                                <div class="mb-30px">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-theme btn-primary w-100"
+                                        @click="abrirBusquedaInteligente"
+                                    >
+                                        <i
+                                            class="fa fa-search fa-fw me-1 ms-n3"
+                                        ></i>
+                                        BUSQUEDA INTELIGENTE
                                     </button>
                                 </div>
                             </form>
@@ -259,7 +287,10 @@ onMounted(() => {
                             </div>
                             <!-- END search-toolbar -->
                             <!-- BEGIN search-item-container -->
-                            <div class="search-item-container">
+                            <div class="search-item-container" v-if="(registrosFila1 &&
+                                        registrosFila1.length > 0)||(registrosFila12 &&
+                                        registrosFila12.length > 0)||(registrosFila3 &&
+                                        registrosFila3.length > 0)">
                                 <!-- BEGIN item-row -->
                                 <div
                                     class="item-row"
@@ -421,6 +452,11 @@ onMounted(() => {
                                 </div>
                                 <!-- END item-row -->
                             </div>
+                            <div class="search-item-container" v-else>
+                                <div class="row">
+                                    <div class="col-12 p-5"><h5>No se encontraron resultados...</h5></div>
+                                </div>
+                            </div>
                             <!-- END search-item-container -->
                             <!-- BEGIN pagination -->
                             <MiPaginacion
@@ -440,7 +476,14 @@ onMounted(() => {
         </div>
         <!-- END container -->
     </div>
-    <!-- END #vehiculos -->
+    <!-- END #terrenos -->
+
+    <Busqueda
+        :open_dialog="open_dialog"
+        :accion_dialog="accion_dialog"
+        @envio-formulario="cargarResultados"
+        @cerrar-dialog="open_dialog = false"
+    ></Busqueda>
 </template>
 
 <style scoped>
@@ -474,14 +517,14 @@ onMounted(() => {
     height: 70px;
 }
 
-/* vehiculos-ecologicos */
-.seccion_categoria.vehiculos,
+/* terrenos-ecologicos */
+.seccion_categoria.terrenos,
 .seccion_categoria.ecologicos {
     background-color: white;
     margin-bottom: 0px;
 }
 .seccion_categoria.ecologicos .container,
-.seccion_categoria.vehiculos .container {
+.seccion_categoria.terrenos .container {
     background-color: #e8ecee;
     padding-bottom: 40px;
 }

@@ -125,8 +125,8 @@ img.oculto {
 }
 
 .contenedor_sliders .slider img {
-    height: 250px;
-    object-fit: contain;
+    /* height: 250px; */
+    object-fit: cover;
 }
 
 .contenedor_puntos {
