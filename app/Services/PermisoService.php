@@ -96,6 +96,7 @@ class PermisoService
             "configuracions.destroy",
 
             "reportes.usuarios",
+            "reportes.r_usuarios",
         ],
         "SECRETARIA" => [],
         "SUPERVISOR" => [],

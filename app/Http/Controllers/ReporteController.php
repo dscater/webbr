@@ -26,7 +26,6 @@ class ReporteController extends Controller
     public function r_usuarios(Request $request)
     {
         $tipo =  $request->tipo;
-        $sucursal_id =  $request->sucursal_id;
         $usuarios = User::select("users.*")
             ->where('id', '!=', 1);
 
@@ -35,10 +34,6 @@ class ReporteController extends Controller
                 'tipo' => 'required',
             ]);
             $usuarios->where('tipo', $tipo);
-        }
-
-        if ($sucursal_id != 'todos') {
-            $usuarios->where('sucursal_id', $sucursal_id);
         }
 
         $usuarios = $usuarios->orderBy("paterno", "ASC")->get();

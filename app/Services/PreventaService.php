@@ -9,6 +9,7 @@ use App\Models\Terreno;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -30,12 +31,24 @@ class PreventaService
         return $preventas;
     }
 
-    public function listadoDataTable(int $length, int $start, int $page, string $search): LengthAwarePaginator
+    public function listadoDataTable(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $preventas = Preventa::with(["terreno", "cliente"])->select("preventas.*");
-        if ($search && trim($search) != '') {
-            $preventas->where("nombre", "LIKE", "%$search%");
+        $preventas = Preventa::with(["terreno", "cliente"])->select("preventas.*")
+            ->join("terrenos", "terrenos.id", "=", "preventas.terreno_id")
+            ->join("clientes", "clientes.id", "=", "preventas.cliente_id");
+        // Búsqueda en múltiples columnas con LIKE
+        if (!empty($search) && !empty($columnsSerachLike)) {
+            $preventas->where(function ($query) use ($search, $columnsSerachLike) {
+                foreach ($columnsSerachLike as $col) {
+                    if ($col === 'clientes.full_name') {
+                        $query->orWhere(DB::raw("CONCAT(clientes.nombre, ' ', clientes.paterno, ' ', clientes.materno)"), 'LIKE', "%$search%");
+                    } else {
+                        $query->orWhere($col, "LIKE", "%$search%");
+                    }
+                }
+            });
         }
+        // $preventas->where("preventas.id", 1000);
         $preventas = $preventas->paginate($length, ['*'], 'page', $page);
         return $preventas;
     }

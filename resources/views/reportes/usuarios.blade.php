@@ -172,7 +172,6 @@
                 <th>CORREO</th>
                 <th>TELÉFONO/CELULAR</th>
                 <th>TIPO</th>
-                <th>SUCURSAL</th>
                 <th>ACCESO</th>
                 <th width="9%">FECHA DE REGISTRO</th>
             </tr>
@@ -197,7 +196,6 @@
                     <td class="">{{ $user->email }}</td>
                     <td class="">{{ $user->fono }}</td>
                     <td class="">{{ $user->tipo }}</td>
-                    <td class="">{{ $user->sucursal ? $user->sucursal->nombre : '' }}</td>
                     <td class="centreado">{{ $user->acceso == 1 ? 'HABILITADO' : 'DENEGADO' }}</td>
                     <td class="centreado">{{ $user->fecha_registro_t }}</td>
                 </tr>

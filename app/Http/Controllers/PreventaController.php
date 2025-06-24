@@ -78,7 +78,9 @@ class PreventaController extends Controller
         $page = (int)(($start / $length) + 1); // Cálculo de la página actual
         $search = (string)$request->input('search', '');
 
-        $usuarios = $this->preventaService->listadoDataTable($length, $start, $page, $search);
+        $columnsSerachLike = ["terrenos.nombre", "clientes.full_name", "preventas.descripcion"];
+
+        $usuarios = $this->preventaService->listadoDataTable($length, $page, $search, $columnsSerachLike, [], [], []);
 
         return response()->JSON([
             'data' => $usuarios->items(),
