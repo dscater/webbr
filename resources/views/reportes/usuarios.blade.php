@@ -153,7 +153,7 @@
             <img src="{{ $configuracion->first()->logo_b64 }}">
         </div>
         <h2 class="titulo">
-            {{ $configuracion->first()->razon_social }}
+            {{ $configuracion->first()->nombre_sistema }}
         </h2>
         <h4 class="texto">LISTA DE USUARIOS</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>

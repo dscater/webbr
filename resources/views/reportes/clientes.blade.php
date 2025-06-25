@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Publicaciones</title>
+    <title>Clientes</title>
     <style type="text/css">
         * {
             font-family: sans-serif;
@@ -153,7 +153,7 @@
             <img src="{{ $configuracion->first()->logo_b64 }}">
         </div>
         <h2 class="titulo">
-            {{ $configuracion->first()->razon_social }}
+            {{ $configuracion->first()->nombre_sistema }}
         </h2>
         <h4 class="texto">LISTA DE CLIENTES</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
@@ -166,13 +166,9 @@
                 <th>PATERNO</th>
                 <th>MATERNO</th>
                 <th>CARNET DE IDENTIDAD</th>
-                <th>COMPLEMENTO</th>
-                <th>CELULAR</th>
-                <th>DPTO. DE RESIDENCIA</th>
+                <th>TELÉFONO/CELULAR</th>
                 <th>CORREO ELECTRÓNICO</th>
-                <th>BANCO</th>
-                <th>NRO. CUENTA</th>
-                <th>MONEDA</th>
+                <th>DIRECCIÓN</th>
                 <th>FECHA DE REGISTRO</th>
             </tr>
         </thead>
@@ -187,13 +183,9 @@
                     <td>{{ $cliente->paterno }}</td>
                     <td>{{ $cliente->materno }}</td>
                     <td>{{ $cliente->full_ci }}</td>
-                    <td>{{ $cliente->complemento }}</td>
                     <td>{{ $cliente->fono }}</td>
-                    <td>{{ $cliente->dpto_residencia }}</td>
-                    <td>{{ $cliente->email }}</td>
-                    <td>{{ $cliente->banco }}</td>
-                    <td>{{ $cliente->nro_cuenta }}</td>
-                    <td>{{ $cliente->moneda }}</td>
+                    <td>{{ $cliente->correo }}</td>
+                    <td>{{ $cliente->dir }}</td>
                     <td>{{ $cliente->fecha_registro_t }}</td>
                 </tr>
             @endforeach

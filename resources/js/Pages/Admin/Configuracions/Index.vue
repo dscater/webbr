@@ -25,6 +25,13 @@ if (props_page.configuracion != null) {
         id: 0,
         nombre_sistema: "",
         alias: "",
+        razon_social: "",
+        nit: "",
+        dir: "",
+        telefono: "",
+        web: "",
+        actividad: "",
+        correo: "",
         url_logo: "",
         logo: "",
     });
@@ -74,6 +81,30 @@ onMounted(() => {});
             <div class="col-12">
                 <div class="row">
                     <div class="col-md-4 form-group mb-3">
+                        <label for="">Nombre del Sistema</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.nombre_sistema"
+                        />
+                        <span
+                            class="text-danger"
+                            v-if="form.errors?.nombre_sistema"
+                            >{{ form.errors.nombre_sistema }}</span
+                        >
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label for="">Alias</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.alias"
+                        />
+                        <span class="text-danger" v-if="form.errors?.alias">{{
+                            form.errors.alias
+                        }}</span>
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
                         <label for="">Razón Social</label>
                         <input
                             type="text"
@@ -87,14 +118,73 @@ onMounted(() => {});
                         >
                     </div>
                     <div class="col-md-4 form-group mb-3">
-                        <label for="">Alias</label>
+                        <label for="">NIT</label>
                         <input
                             type="text"
                             class="form-control"
-                            v-model="form.alias"
+                            v-model="form.nit"
                         />
-                        <span class="text-danger" v-if="form.errors?.alias">{{
-                            form.errors.alias
+                        <span class="text-danger" v-if="form.errors?.nit">{{
+                            form.errors.nit
+                        }}</span>
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label for="">Dirección</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.dir"
+                        />
+                        <span class="text-danger" v-if="form.errors?.dir">{{
+                            form.errors.dir
+                        }}</span>
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label for="">Teléfono</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.telefono"
+                        />
+                        <span
+                            class="text-danger"
+                            v-if="form.errors?.telefono"
+                            >{{ form.errors.telefono }}</span
+                        >
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label for="">Web</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.web"
+                        />
+                        <span class="text-danger" v-if="form.errors?.web">{{
+                            form.errors.web
+                        }}</span>
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label for="">Actividad</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.actividad"
+                        />
+                        <span
+                            class="text-danger"
+                            v-if="form.errors?.actividad"
+                            >{{ form.errors.actividad }}</span
+                        >
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label for="">Correo</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.correo"
+                        />
+                        <span class="text-danger" v-if="form.errors?.correo">{{
+                            form.errors.correo
                         }}</span>
                     </div>
                     <div class="col-md-4 form-group mb-3">

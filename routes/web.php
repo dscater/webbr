@@ -148,5 +148,20 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // REPORTES
     Route::get('reportes/usuarios', [ReporteController::class, 'usuarios'])->name("reportes.usuarios");
     Route::get('reportes/r_usuarios', [ReporteController::class, 'r_usuarios'])->name("reportes.r_usuarios");
+
+    Route::get('reportes/clientes', [ReporteController::class, 'clientes'])->name("reportes.clientes");
+    Route::get('reportes/r_clientes', [ReporteController::class, 'r_clientes'])->name("reportes.r_clientes");
+    
+    Route::get('reportes/especificacion_terrenos', [ReporteController::class, 'especificacion_terrenos'])->name("reportes.especificacion_terrenos");
+    Route::get('reportes/r_especificacion_terrenos', [ReporteController::class, 'r_especificacion_terrenos'])->name("reportes.r_especificacion_terrenos");
+    
+    Route::get('reportes/terrenos', [ReporteController::class, 'terrenos'])->name("reportes.terrenos");
+    Route::get('reportes/r_terrenos', [ReporteController::class, 'r_terrenos'])->name("reportes.r_terrenos");
+    
+    Route::get('reportes/gingresos_economicos', [ReporteController::class, 'gingresos_economicos'])->name("reportes.gingresos_economicos");
+    Route::get('reportes/r_gingresos_economicos', [ReporteController::class, 'r_gingresos_economicos'])->name("reportes.r_gingresos_economicos");
+    
+    Route::get('reportes/gcantidadventas', [ReporteController::class, 'gcantidadventas'])->name("reportes.gcantidadventas");
+    Route::get('reportes/r_gcantidadventas', [ReporteController::class, 'r_gcantidadventas'])->name("reportes.r_gcantidadventas");
 });
 require __DIR__ . '/auth.php';

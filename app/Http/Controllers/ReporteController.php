@@ -8,6 +8,7 @@ use App\Models\HistorialOferta;
 use App\Models\Publicacion;
 use App\Models\PublicacionDetalle;
 use App\Models\SubastaCliente;
+use App\Models\Terreno;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,89 +51,186 @@ class ReporteController extends Controller
 
         return $pdf->stream('usuarios.pdf');
     }
+    public function clientes()
+    {
+        return Inertia::render("Admin/Reportes/Clientes");
+    }
 
-    public function g_subasta_clientes()
+    public function r_clientes(Request $request)
+    {
+        $fecha_ini =  $request->fecha_ini;
+        $fecha_fin =  $request->fecha_fin;
+        $clientes = Cliente::select("clientes.*");
+
+        if ($fecha_ini && $fecha_fin) {
+            $request->validate([
+                'fecha_ini' => 'required',
+                'fecha_fin' => 'required',
+            ]);
+            $clientes->whereBetween('fecha_registro', [$fecha_ini, $fecha_fin]);
+        }
+
+        $clientes = $clientes->get();
+
+        $pdf = PDF::loadView('reportes.clientes', compact('clientes'))->setPaper('letter', 'landscape');
+
+        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->stream('clientes.pdf');
+    }
+
+    public function especificacion_terrenos()
+    {
+        return Inertia::render("Admin/Reportes/EspecificacionTerrenos");
+    }
+
+    public function r_especificacion_terrenos(Request $request)
+    {
+        $terreno_id =  $request->terreno_id;
+
+        $terrenos = Terreno::select("terrenos.*");
+
+        if ($terreno_id != 'todos') {
+            $terrenos->where('id', $terreno_id);
+        }
+
+        $terrenos = $terrenos->where("status", 1)->get();
+
+        $pdf = PDF::loadView('reportes.especificacion_terrenos', compact('terrenos'))->setPaper('letter', 'portrait');
+
+        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->stream('especificacion_terrenos.pdf');
+    }
+    public function terrenos()
+    {
+        return Inertia::render("Admin/Reportes/Terrenos");
+    }
+
+    public function r_terrenos(Request $request)
+    {
+        $fecha_ini =  $request->fecha_ini;
+        $fecha_fin =  $request->fecha_fin;
+
+        $terrenos = Terreno::select("terrenos.*");
+
+
+        if ($fecha_ini && $fecha_fin) {
+            $request->validate([
+                'fecha_ini' => 'required',
+                'fecha_fin' => 'required',
+            ]);
+            $terrenos->whereBetween('fecha_registro', [$fecha_ini, $fecha_fin]);
+        }
+
+
+        $terrenos = $terrenos->where("status", 1)->get();
+
+        $pdf = PDF::loadView('reportes.terrenos', compact('terrenos'))->setPaper('legal', 'landscape');
+
+        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->stream('terrenos.pdf');
+    }
+
+    public function gingresos_economicos()
     {
         return Inertia::render("Admin/Reportes/GSubastaClientes");
     }
 
-    public function gr_subasta_clientes(Request $request)
+    public function r_gingresos_economicos(Request $request)
     {
         $fecha_ini = $request->fecha_ini;
         $fecha_fin = $request->fecha_fin;
-        $categoria = $request->categoria;
 
-        $publicacions = Publicacion::select("publicacions.*")
-            ->whereIn("estado_sub", [1, 2, 3, 4]);
 
-        if ($categoria != 'todos') {
-            $publicacions->where("publicacions.categoria", $categoria);
+        $total_vendidos = Terreno::where("vendido", 1)
+            ->join("ventas", "ventas.terreno_id", "=", "terrenos.id");
+        if ($fecha_ini && $fecha_fin) {
+            $total_vendidos->whereBetween("ventas.fecha_registro", [$fecha_ini, $fecha_fin]);
+        }
+        $total_vendidos = $total_vendidos->sum("terrenos.costo_contado");
+
+        $total_preventas = Terreno::where("vendido", 0)
+            ->join("preventas", "preventas.terreno_id", "=", "terrenos.id");
+
+        if ($fecha_ini && $fecha_fin) {
+            $total_preventas->whereBetween("preventas.fecha_registro", [$fecha_ini, $fecha_fin]);
         }
 
-        $permisos = Auth::user()->permisos;
-        if (is_array($permisos) && !in_array("publicacions.todos", $permisos)) {
-            $publicacions->where("user_id", Auth::user()->id);
-        }
+        $total_preventas = $total_preventas
+            ->groupBy("terrenos.id")
+            ->selectRaw("SUM(DISTINCT terrenos.costo_contado) as total") // <- suma sin duplicar
+            ->pluck("total")
+            ->sum(); // <- suma final si hay varios grupos
 
-        $publicacions->whereNotIn("estado_sub", [5]);
-        $publicacions = $publicacions->get();
-        $data = [];
-        foreach ($publicacions as $publicacion) {
-            $total = 0;
-            if ($publicacion->subasta) {
-                $total = SubastaCliente::select("subasta_clientes.*")
-                    ->join("historial_ofertas", "historial_ofertas.subasta_cliente_id", "=", "subasta_clientes.id")
-                    ->where("subasta_clientes.subasta_id", $publicacion->subasta->id);
-                if ($fecha_ini && $fecha_fin) {
-                    $total->whereBetween("historial_ofertas.fecha_oferta", [$fecha_ini, $fecha_fin]);
-                }
-                $total = $total->distinct("subasta_clientes.cliente_id")->count();
-            }
-
-            $data[] = [
-                "y" => (int)$total,
-                "name" => "PUBLICACIÓN NRO. " . $publicacion->nro . " | " . $publicacion->categoria,
-                "nro_pub" => $publicacion->nro
-            ];
-        }
+        $data = [
+            ["PRE-VENTAS", (float)$total_preventas],
+            [
+                "VENTAS",
+                (float)$total_vendidos
+            ]
+        ];
 
         return response()->JSON([
             "data" => $data
         ]);
     }
 
-    public function g_puja_clientes()
+    public function gcantidadventas()
     {
-        return Inertia::render("Admin/Reportes/GPujaClientes");
+        return Inertia::render("Admin/Reportes/GSubastaClientes");
     }
 
-    public function prueba()
+    public function r_gcantidadventas(Request $request)
     {
-        $pdf = PDF::loadView('reportes.venta')->setPaper('letter', 'portrait');
+        $fecha_ini = $request->fecha_ini;
+        $fecha_fin = $request->fecha_fin;
 
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
-        $pdf->output();
-        $dom_pdf = $pdf->getDomPDF();
-        $canvas = $dom_pdf->get_canvas();
-        $alto = $canvas->get_height();
-        $ancho = $canvas->get_width();
-        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('venta.pdf');
-    }
+        $total_vendidos = Terreno::where("vendido", 1)
+            ->join("ventas", "ventas.terreno_id", "=", "terrenos.id");
+        if ($fecha_ini && $fecha_fin) {
+            $total_vendidos->whereBetween("ventas.fecha_registro", [$fecha_ini, $fecha_fin]);
+        }
+        $total_vendidos = $total_vendidos->count();
 
-    public function prueba2()
-    {
-        $pdf = PDF::loadView('reportes.venta2')->setPaper('letter', 'portrait');
+        $total_preventas = Terreno::join("preventas", "preventas.terreno_id", "=", "terrenos.id");
 
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
-        $pdf->output();
-        $dom_pdf = $pdf->getDomPDF();
-        $canvas = $dom_pdf->get_canvas();
-        $alto = $canvas->get_height();
-        $ancho = $canvas->get_width();
-        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+        if ($fecha_ini && $fecha_fin) {
+            $total_preventas->whereBetween("preventas.fecha_registro", [$fecha_ini, $fecha_fin]);
+        }
 
-        return $pdf->stream('venta.pdf');
+        $total_preventas = $total_preventas->count();
+
+        $data = [
+            ["PRE-VENTAS", (float)$total_preventas],
+            [
+                "VENTAS",
+                (float)$total_vendidos
+            ]
+        ];
+
+        return response()->JSON([
+            "data" => $data
+        ]);
     }
 }

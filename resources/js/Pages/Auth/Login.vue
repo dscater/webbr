@@ -134,7 +134,8 @@ onMounted(() => {
 
                                     <label
                                         for="name"
-                                        class="d-flex align-items-center text-gray-600 fs-13px" style="z-index: 100;"
+                                        class="d-flex align-items-center text-gray-600 fs-13px"
+                                        style="z-index: 100"
                                         >Contraseña</label
                                     >
                                     <button

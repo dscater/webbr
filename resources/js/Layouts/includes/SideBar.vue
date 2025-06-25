@@ -524,7 +524,14 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('usuarios.index')
+                        user_logeado.permisos.includes('usuarios.index') ||
+                        user_logeado.permisos.includes('municipios.index') ||
+                        user_logeado.permisos.includes('urbanizacions.index') ||
+                        user_logeado.permisos.includes('manzanos.index') ||
+                        user_logeado.permisos.includes('terrenos.index') ||
+                        user_logeado.permisos.includes('clientes.index') ||
+                        user_logeado.permisos.includes('preventas.index') ||
+                        user_logeado.permisos.includes('ventas.index')
                     "
                 >
                     ADMINISTRACIÓN
@@ -621,10 +628,15 @@ const logout = () => {
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'urbanizacions.index' ? 'active' : 'none',
+                        route_current == 'urbanizacions.index'
+                            ? 'active'
+                            : 'none',
                     ]"
                 >
-                    <Link :href="route('urbanizacions.index')" class="menu-link">
+                    <Link
+                        :href="route('urbanizacions.index')"
+                        class="menu-link"
+                    >
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
@@ -692,6 +704,68 @@ const logout = () => {
                             <i class="fa fa-file-alt"></i>
                         </div>
                         <div class="menu-text">Usuarios</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('reportes.clientes')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.clientes'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link :href="route('reportes.clientes')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Clientes</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.especificacion_terrenos'
+                        )
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.especificacion_terrenos'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.especificacion_terrenos')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Especificación de Terrenos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('reportes.terrenos')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.terrenos'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link :href="route('reportes.terrenos')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Lista de Terrenos</div>
                     </Link>
                 </div>
                 <div class="menu-header">OTROS</div>
