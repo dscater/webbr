@@ -20,6 +20,39 @@ onMounted(() => {
 const { setPreventa, limpiarPreventa } = usePreventas();
 const { axiosDelete } = useAxios();
 
+const ratings = [
+    {
+        value: 1,
+        icon: "fa-solid fa-face-angry",
+        stars: "★☆☆☆☆",
+        color: "#dc3545",
+    },
+    {
+        value: 2,
+        icon: "fa-solid fa-face-frown",
+        stars: "★★☆☆☆",
+        color: "#fd7e14",
+    },
+    {
+        value: 3,
+        icon: "fa-solid fa-face-meh",
+        stars: "★★★☆☆",
+        color: "#ffc107",
+    },
+    {
+        value: 4,
+        icon: "fa-solid fa-face-smile",
+        stars: "★★★★☆",
+        color: "#8bc34a",
+    },
+    {
+        value: 5,
+        icon: "fa-solid fa-face-laugh-beam",
+        stars: "★★★★★",
+        color: "#28a745",
+    },
+];
+
 const columns = [
     {
         title: "",
@@ -40,6 +73,19 @@ const columns = [
     {
         title: "ESTADO",
         data: "estado",
+    },
+    {
+        title: "CALIFICACIÓN",
+        data: "calificacion",
+        render: function (data, type, row) {
+            let calificacion = row.calificacion;
+            let rating = ratings.find((r) => r.value === calificacion);
+            if (rating) {
+                return `<span style="color: ${rating.color};" class="text-md"><i class="${rating.icon}"></i> <br/>${rating.stars}</span>`;
+            } else {
+                return `<span style="color: #6c757d;" class="text-md"><i class="fa-solid fa-face-meh"></i> Sin calificación</span>`;
+            }
+        },
     },
     {
         title: "FECHA DE REGISTRO",
@@ -67,7 +113,7 @@ const columns = [
                  data-nombre="${row.id}|${row.terreno.nombre}|${row.cliente.full_name}"
                  data-url="${route(
                      "preventas.destroy",
-                     row.id
+                     row.id,
                  )}"><i class="fa fa-trash"></i></button>`;
             }
 
@@ -113,7 +159,7 @@ const accionesRow = () => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 let respuesta = await axiosDelete(
-                    route("preventas.destroy", id)
+                    route("preventas.destroy", id),
                 );
                 if (respuesta && respuesta.sw) {
                     updateDatatable();
@@ -136,7 +182,7 @@ onMounted(async () => {
     datatable = initDataTable(
         "#table-preventa",
         columns,
-        route("preventas.api")
+        route("preventas.api"),
     );
     input_search = document.querySelector('input[type="search"]');
 
@@ -186,7 +232,7 @@ onBeforeUnmount(() => {
                             v-if="
                                 props_page.auth?.user.permisos == '*' ||
                                 props_page.auth?.user.permisos.includes(
-                                    'preventas.create'
+                                    'preventas.create',
                                 )
                             "
                             type="button"

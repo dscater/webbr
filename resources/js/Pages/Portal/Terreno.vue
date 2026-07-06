@@ -24,14 +24,19 @@ onMounted(() => {});
     <div id="product" class="section-container pt-20px">
         <div class="container">
             <h4 class="section-title clearfix">
-                <span class="flex-1">Ver terreno</span>
+                <span class="flex-1 h3 mt-2 w-100 text-center"
+                    >Ver terreno</span
+                >
             </h4>
-            <Terreno :terreno="oTerreno"></Terreno>
+            <Terreno :terreno="oTerreno" :key="oTerreno.id"></Terreno>
 
             <div class="row">
                 <div class="col-12 text-center">
-                    <Link :href="route('portal.index')" class="btn btn-outline-primary mt-2 btn-lg "
-                        ><i class="fa fa-arrow-left"></i> Seguir viendo terrenos</Link
+                    <Link
+                        :href="route('portal.index')"
+                        class="btn btn-outline-primary mt-2 btn-lg"
+                        ><i class="fa fa-arrow-left"></i> Seguir viendo
+                        terrenos</Link
                     >
                 </div>
             </div>

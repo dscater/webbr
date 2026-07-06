@@ -86,19 +86,26 @@ onMounted(() => {
                     <a :href="route('portal.index')" class="mr-5">
                         <img :src="oConfiguracion.url_logo" alt="Img" />
                     </a>
+                    <div
+                        class="font-weight-bold text-principal-portal d-none d-md-inline h1 w-100 text-center"
+                    >
+                        {{ oConfiguracion.nombre_sistema }}
+                    </div>
                 </div>
                 <!-- END header-logo -->
                 <!-- BEGIN header-nav -->
                 <div class="header-nav header-menu">
-                    <div
+                    <!-- <div
                         class="navbar-collapse collapse"
                         :class="{ show: colapse }"
                         ref="navbarCollapse"
                     >
                         <ul class="nav justify-content-center">
-                            <li class="h1">{{ oConfiguracion.nombre_sistema }}</li>
+                            <li class="h1">
+                                {{ oConfiguracion.nombre_sistema }}
+                            </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- END header-nav -->
                 <!-- BEGIN header-nav -->
@@ -110,7 +117,7 @@ onMounted(() => {
                                 <span class="d-none d-xl-inline"> Acceder</span>
                             </a>
                         </li>
-                        <li class="dropdown dropdown-hover" v-if="user">
+                        <li class="dropdown" v-if="user">
                             <a href="#" data-bs-toggle="dropdown">
                                 <img
                                     :src="user.url_foto"
@@ -158,8 +165,8 @@ onMounted(() => {
 </template>
 <style scoped>
 .header {
-    border-bottom: solid 20px var(--principal-portal);
-    height: 115px;
+    border-bottom: solid 8px var(--principal-portal);
+    height: 80px;
     transition: 0.3s all;
     background-color: var(--secundario);
 }
@@ -170,7 +177,7 @@ onMounted(() => {
 }
 
 .header-container {
-    height: 115px;
+    height: 79px;
 }
 
 .header.header-fixed .header-container {
@@ -195,24 +202,22 @@ onMounted(() => {
 
 /* LOGO */
 .header-logo {
-    margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    margin-right: 100px;
+    width: 100%;
 }
 
 .header.header-fixed .header-logo {
-    margin-top: 0px;
+    margin: 0px;
 }
 
 .header-logo img {
-    max-height: 60px;
+    max-height: 50px;
 }
 
 .header-logo img:nth-child(1) {
-    max-height: 160px;
+    max-height: 90%;
 }
 
 /* menu */
@@ -276,8 +281,10 @@ onMounted(() => {
 }
 
 /* REGISTRO */
-.header-registro .nav {
+.header .header-nav.header-registro {
+    height: calc(100% - 20px);
 }
+
 .header .header-nav.header-registro:last-child {
     width: auto;
 }
@@ -321,6 +328,11 @@ onMounted(() => {
     border-color: var(--principal-portal);
     margin-top: 40px;
 }
+.header .dropdown-menu {
+    border-color: var(--principal-portal);
+    margin-top: 40px;
+}
+
 @media (max-width: 800px) {
     .header.header-fixed {
         height: 66px;
@@ -335,14 +347,14 @@ onMounted(() => {
     }
 
     .header {
-        height: 85px;
+        height: 73px;
     }
     .header-logo {
         margin-top: 0px;
     }
 
     .header-logo img:nth-child(1) {
-        max-width: 180px;
+        max-width: 120px;
     }
 
     .header-registro .dropdown.dropdown-hover .dropdown-menu.show {

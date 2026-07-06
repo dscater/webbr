@@ -24,13 +24,31 @@ const { setLoading } = useApp();
 
 const cargarListas = () => {
     cargarTerrenos();
+    cargarMunicipios();
+    cargarUrbanizaciones();
 };
 const listTerrenos = ref([]);
+const listMunicipios = ref([]);
+const listUrbanizaciones = ref([]);
 
 const cargarTerrenos = () => {
     axios.get(route("terrenos.listado")).then((response) => {
         listTerrenos.value = response.data.terrenos;
         listTerrenos.value.unshift({ id: "todos", nombre: "TODOS" });
+    });
+};
+
+const cargarMunicipios = () => {
+    axios.get(route("municipios.listado")).then((response) => {
+        listMunicipios.value = response.data.municipios;
+        listMunicipios.value.unshift({ id: "todos", nombre: "TODOS" });
+    });
+};
+
+const cargarUrbanizaciones = () => {
+    axios.get(route("urbanizacions.listado")).then((response) => {
+        listUrbanizaciones.value = response.data.urbanizacions;
+        listUrbanizaciones.value.unshift({ id: "todos", nombre: "TODOS" });
     });
 };
 
@@ -43,6 +61,8 @@ onMounted(() => {
 
 const form = ref({
     terreno_id: "todos",
+    municipio_id: "todos",
+    urbanizacion_id: "todos",
 });
 
 const generando = ref(false);
@@ -81,32 +101,49 @@ const generarReporte = () => {
                 <div class="card-body">
                     <form @submit.prevent="generarReporte">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <label>Seleccionar terreno*</label>
-                                <select
-                                    :hide-details="
-                                        form.errors?.terreno_id ? false : true
-                                    "
-                                    :error="
-                                        form.errors?.terreno_id ? true : false
-                                    "
-                                    :error-messages="
-                                        form.errors?.terreno_id
-                                            ? form.errors?.terreno_id
-                                            : ''
-                                    "
-                                    v-model="form.terreno_id"
-                                    class="form-control"
-                                >
-                                    <option
+                                <el-select v-model="form.terreno_id" filterable>
+                                    <el-option
                                         v-for="item in listTerrenos"
+                                        :key="item.id"
                                         :value="item.id"
+                                        :label="item.nombre"
                                     >
-                                        {{ item.nombre }}
-                                    </option>
-                                </select>
+                                    </el-option>
+                                </el-select>
                             </div>
-                            <div class="col-md-12 text-center mt-3">
+                            <div class="col-12 mt-2">
+                                <label>Seleccionar Municipio*</label>
+                                <el-select
+                                    v-model="form.municipio_id"
+                                    filterable
+                                >
+                                    <el-option
+                                        v-for="item in listMunicipios"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="item.nombre"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label>Seleccionar Urbanización*</label>
+                                <el-select
+                                    v-model="form.urbanizacion_id"
+                                    filterable
+                                >
+                                    <el-option
+                                        v-for="item in listUrbanizaciones"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="item.nombre"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <div class="col-12 text-center mt-3">
                                 <button
                                     class="btn btn-primary"
                                     block

@@ -134,6 +134,11 @@
     background-size: cover;
 }
 
+.seccion_categoria,
+.section-container {
+    background: #e9dfc8 !important;
+}
+
 .s_container {
     display: flex;
     flex-direction: column;

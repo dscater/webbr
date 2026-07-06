@@ -17,12 +17,25 @@ const { oConfiguracion } = useConfiguracion();
                 <div class="col-lg-3"></div>
                 <!-- END col-3 -->
                 <!-- BEGIN col-3 -->
-                <div class="col-lg-3">
-                    <h1 class="mb-0">{{ oConfiguracion.nombre_sistema }}</h1>
+                <div class="col-12 text-center">
+                    <h1 class="mb-2 h2">{{ oConfiguracion.nombre_sistema }}</h1>
+                    <div>
+                        <i class="fa fa-map-marker-alt"></i>
+                        {{ oConfiguracion.dir }}
+                    </div>
+                    <div>
+                        <i class="fa fa-phone"></i>
+                        {{ oConfiguracion.telefono }}
+                    </div>
+                    <div>
+                        <i class="fa fa-envelope"></i>
+                        {{ oConfiguracion.correo }}
+                    </div>
+
                     <img
                         :src="oConfiguracion.url_logo"
                         alt=""
-                        class="img_logo"
+                        class="img_logo mt-2"
                     />
                 </div>
                 <!-- END col-3 -->
@@ -38,8 +51,7 @@ const { oConfiguracion } = useConfiguracion();
 </template>
 <style scoped>
 .img_logo {
-    margin-left: -130px;
-    width: 370px;
+    max-width: 200px;
 }
 
 .footer {

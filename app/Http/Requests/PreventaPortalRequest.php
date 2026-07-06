@@ -31,6 +31,7 @@ class PreventaPortalRequest extends FormRequest
             "fono" => "required",
             "correo" => "required",
             "dir" => "required",
+            "calificacion" => "required"
         ];
     }
 
@@ -45,6 +46,7 @@ class PreventaPortalRequest extends FormRequest
             "fono.required" => "Debes completar este campo",
             "correo.required" => "Debes completar este campo",
             "dir.required" => "Debes completar este campo",
+            "calificacion.required" => "Debes realizar una calificación",
         ];
     }
 }

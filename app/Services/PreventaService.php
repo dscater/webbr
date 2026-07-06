@@ -66,6 +66,7 @@ class PreventaService
             "cliente_id" => $datos["cliente_id"],
             "descripcion" => mb_strtoupper($datos["descripcion"]),
             "estado" => "PRE-VENTA",
+            "calificacion" => $datos["calificacion"] ?? null,
             "fecha_registro" => date("Y-m-d")
         ]);
         // registrar accion
@@ -93,6 +94,7 @@ class PreventaService
             "cliente_id" => $cliente->id,
             "descripcion" => "PRE-VENTA DEL TERRENO " . $terreno->nombre . " POR EL CLIENTE " . $cliente->full_name,
             "estado" => "PRE-VENTA",
+            "calificacion" => $datos["calificacion"] ?? null,
             "fecha_registro" => date("Y-m-d")
         ]);
 
@@ -114,6 +116,7 @@ class PreventaService
             "terreno_id" => $datos["terreno_id"],
             "cliente_id" => $datos["cliente_id"],
             "descripcion" => mb_strtoupper($datos["descripcion"]),
+            "calificacion" => $datos["calificacion"] ?? null,
             // "estado" => $datos["estado"],
         ]);
         // registrar accion

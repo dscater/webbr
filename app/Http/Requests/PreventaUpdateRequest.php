@@ -26,6 +26,7 @@ class PreventaUpdateRequest extends FormRequest
             "cliente_id" => "required",
             "descripcion" => "required",
             "estado" => "nullable",
+            "calificacion" => "nullable",
         ];
     }
 

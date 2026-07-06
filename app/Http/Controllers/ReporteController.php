@@ -93,11 +93,19 @@ class ReporteController extends Controller
     public function r_especificacion_terrenos(Request $request)
     {
         $terreno_id =  $request->terreno_id;
+        $municipio_id =  $request->municipio_id;
+        $urbanizacion_id =  $request->urbanizacion_id;
 
         $terrenos = Terreno::select("terrenos.*");
 
         if ($terreno_id != 'todos') {
             $terrenos->where('id', $terreno_id);
+        }
+        if ($municipio_id != 'todos') {
+            $terrenos->where('municipio_id', $municipio_id);
+        }
+        if ($urbanizacion_id != 'todos') {
+            $terrenos->where('urbanizacion_id', $urbanizacion_id);
         }
 
         $terrenos = $terrenos->where("status", 1)->get();

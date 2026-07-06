@@ -17,7 +17,7 @@ onMounted(() => {
     }, 300);
 });
 
-const { setVenta, limpiarVenta } = useVentas();
+const { setVenta, limpiarVenta, form } = useVentas();
 const { axiosDelete } = useAxios();
 
 const columns = [
@@ -61,11 +61,11 @@ const columns = [
                 buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}"
                  data-nombre="${row.id}|${row.terreno.nombre}|${
-                    row.cliente.full_name
-                }"
+                     row.cliente.full_name
+                 }"
                  data-url="${route(
                      "ventas.destroy",
-                     row.id
+                     row.id,
                  )}"><i class="fa fa-trash"></i></button>`;
             }
 
@@ -79,7 +79,6 @@ const open_dialog = ref(false);
 
 const agregarRegistro = () => {
     limpiarVenta();
-    accion_dialog.value = 0;
     open_dialog.value = true;
 };
 
@@ -125,6 +124,7 @@ var debounceTimeout = null;
 const loading_table = ref(false);
 const datatableInitialized = ref(false);
 const updateDatatable = () => {
+    limpiarVenta();
     datatable.ajax.reload();
 };
 
@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
                             v-if="
                                 props_page.auth?.user.permisos == '*' ||
                                 props_page.auth?.user.permisos.includes(
-                                    'ventas.create'
+                                    'ventas.create',
                                 )
                             "
                             type="button"
@@ -224,6 +224,8 @@ onBeforeUnmount(() => {
     </div>
 
     <Formulario
+        v-if="open_dialog"
+        :form="form"
         :open_dialog="open_dialog"
         :accion_dialog="accion_dialog"
         @envio-formulario="updateDatatable"

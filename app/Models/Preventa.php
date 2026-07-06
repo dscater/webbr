@@ -14,6 +14,7 @@ class Preventa extends Model
         "cliente_id",
         "descripcion",
         "estado",
+        "calificacion",
         "fecha_registro",
     ];
 

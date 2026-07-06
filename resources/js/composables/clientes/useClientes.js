@@ -10,6 +10,7 @@ const oCliente = ref({
     fono: "",
     correo: "",
     dir: "",
+    calificacion: null,
     _method: "POST",
 });
 
@@ -41,6 +42,7 @@ export const useClientes = () => {
         oCliente.value.fono = "";
         oCliente.value.correo = "";
         oCliente.value.dir = "";
+        oCliente.value.calificacion = null;
         oCliente.value._method = "POST";
     };
 

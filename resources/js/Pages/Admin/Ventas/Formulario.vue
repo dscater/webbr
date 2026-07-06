@@ -1,43 +1,25 @@
 <script setup>
-import { useForm, usePage } from "@inertiajs/vue3";
-import { useVentas } from "@/composables/ventas/useVentas";
-import { useAxios } from "@/composables/axios/useAxios";
+import { usePage } from "@inertiajs/vue3";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
 const props = defineProps({
+    form: {
+        type: Object,
+    },
     open_dialog: {
         type: Boolean,
         default: false,
     },
-    accion_dialog: {
-        type: Number,
-        default: 0,
-    },
 });
 
-const { oVenta, limpiarVenta } = useVentas();
-const { axiosGet } = useAxios();
 const accion = ref(props.accion_dialog);
 const dialog = ref(props.open_dialog);
-let form = useForm(oVenta.value);
-watch(
-    () => props.open_dialog,
-    async (newValue) => {
-        dialog.value = newValue;
-        if (dialog.value) {
-            document
-                .getElementsByTagName("body")[0]
-                .classList.add("modal-open");
-            form = useForm(oVenta.value);
-            cargarListas();
-            cargarPreventas();
-        }
-    }
-);
+const form = props.form;
+
 watch(
     () => props.accion_dialog,
     (newValue) => {
         accion.value = newValue;
-    }
+    },
 );
 
 const { flash } = usePage().props;
@@ -46,9 +28,9 @@ const listTerrenos = ref([]);
 const listPreventas = ref([]);
 
 const tituloDialog = computed(() => {
-    return accion.value == 0
-        ? `<i class="fa fa-plus"></i> Nueva Pre-venta`
-        : `<i class="fa fa-edit"></i> Editar Pre-venta`;
+    return form.id == 0
+        ? `<i class="fa fa-plus"></i> Nueva Venta`
+        : `<i class="fa fa-edit"></i> Editar Venta`;
 });
 
 const enviarFormulario = () => {
@@ -69,7 +51,6 @@ const enviarFormulario = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
             });
-            limpiarVenta();
             emits("envio-formulario");
         },
         onError: (err) => {
@@ -81,8 +62,8 @@ const enviarFormulario = () => {
                     flash.error
                         ? flash.error
                         : err.error
-                        ? err.error
-                        : "Hay errores en el formulario"
+                          ? err.error
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -129,7 +110,11 @@ const cargarPreventas = () => {
 };
 
 onMounted(() => {
+    if (dialog.value) {
+        document.getElementsByTagName("body")[0].classList.add("modal-open");
+    }
     cargarListas();
+    if (form.terreno_id != 0) cargarPreventas();
 });
 </script>
 
@@ -137,11 +122,11 @@ onMounted(() => {
     <div
         class="modal fade"
         :class="{
-            show: dialog,
+            show: open_dialog,
         }"
         id="modal-dialog-form"
         :style="{
-            display: dialog ? 'block' : 'none',
+            display: open_dialog ? 'block' : 'none',
         }"
     >
         <div class="modal-dialog modal-xl">
@@ -165,6 +150,8 @@ onMounted(() => {
                                             form.errors?.terreno_id,
                                     }"
                                     v-model="form.terreno_id"
+                                    no-data-text="Sin datos"
+                                    no-match-text="Sin resultados"
                                     placeholder="- Seleccione -"
                                     filterable
                                     @change="cargarPreventas"
@@ -193,6 +180,8 @@ onMounted(() => {
                                             form.errors?.preventa_id,
                                     }"
                                     v-model="form.preventa_id"
+                                    no-data-text="Sin datos"
+                                    no-match-text="Sin resultados"
                                     placeholder="- Seleccione -"
                                     filterable
                                 >

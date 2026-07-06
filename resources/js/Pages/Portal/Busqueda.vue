@@ -38,13 +38,13 @@ watch(
                 cargarManzanos();
             }
         }
-    }
+    },
 );
 watch(
     () => props.accion_dialog,
     (newValue) => {
         accion.value = newValue;
-    }
+    },
 );
 
 const { flash } = usePage().props;
@@ -203,7 +203,7 @@ const cargarManzanos = async () => {
         {
             municipio_id: form.municipio_id ?? 0,
             urbanizacion_id: form.urbanizacion_id ?? 0,
-        }
+        },
     );
     listManzanos.value = data.manzanos;
 };
@@ -1238,7 +1238,7 @@ onMounted(() => {
                 <div class="modal-footer">
                     <a
                         href="javascript:;"
-                        class="btn btn-white"
+                        class="btn btn-default"
                         @click="cerrarDialog()"
                         ><i class="fa fa-times"></i> Cerrar</a
                     >
@@ -1247,8 +1247,8 @@ onMounted(() => {
                         @click="enviarFormulario()"
                         class="btn btn-primary"
                     >
-                        <i class="fa fa-save"></i>
-                        Guardar
+                        <i class="fa fa-search"></i>
+                        Buscar
                     </button>
                 </div>
             </div>

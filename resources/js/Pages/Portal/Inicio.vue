@@ -49,7 +49,7 @@ const dataPaginacion = ref({
 const obtenerTerrenos = async () => {
     muestraDescResultados.value = false;
     const data = await axiosGet(
-        route("terrenos.listadoPaginado", paramsTerrenos.value)
+        route("terrenos.listadoPaginado", paramsTerrenos.value),
     );
     registrosFila1.value = data.terrenos.splice(0, 3);
     registrosFila2.value = data.terrenos.splice(0, 3);
@@ -125,7 +125,9 @@ onMounted(() => {
         <div class="container mb-0">
             <div class="row">
                 <div class="col-12 pt-3 mb-3">
-                    <h3 class="w-100 text-center">Venta de terrenos</h3>
+                    <h3 class="w-100 text-center font-weight-bold">
+                        Venta de terrenos
+                    </h3>
                 </div>
             </div>
             <!-- BEGIN section-title -->
@@ -238,9 +240,9 @@ onMounted(() => {
                                                         'desc'
                                                             ? 'fa-sort-amount-up'
                                                             : paramsTerrenos.desc ==
-                                                              'asc'
-                                                            ? 'fa-sort-amount-down-alt'
-                                                            : 'fa-filter'
+                                                                'asc'
+                                                              ? 'fa-sort-amount-down-alt'
+                                                              : 'fa-filter'
                                                     "
                                                 ></i>
                                                 Ordenar por:
@@ -273,7 +275,7 @@ onMounted(() => {
                                                     href="#"
                                                     @click.prevent="
                                                         filtrarOrderBy(
-                                                            'costo_contado'
+                                                            'costo_contado',
                                                         )
                                                     "
                                                     >Precio</a
@@ -287,10 +289,17 @@ onMounted(() => {
                             </div>
                             <!-- END search-toolbar -->
                             <!-- BEGIN search-item-container -->
-                            <div class="search-item-container" v-if="(registrosFila1 &&
-                                        registrosFila1.length > 0)||(registrosFila12 &&
-                                        registrosFila12.length > 0)||(registrosFila3 &&
-                                        registrosFila3.length > 0)">
+                            <div
+                                class="search-item-container"
+                                v-if="
+                                    (registrosFila1 &&
+                                        registrosFila1.length > 0) ||
+                                    (registrosFila2 &&
+                                        registrosFila2.length > 0) ||
+                                    (registrosFila3 &&
+                                        registrosFila3.length > 0)
+                                "
+                            >
                                 <!-- BEGIN item-row -->
                                 <div
                                     class="item-row"
@@ -303,6 +312,7 @@ onMounted(() => {
                                     <div
                                         class="item item-thumbnail"
                                         v-for="item in registrosFila1"
+                                        :key="item.id"
                                     >
                                         <Link
                                             :href="
@@ -323,7 +333,7 @@ onMounted(() => {
                                                     :href="
                                                         route(
                                                             'portal.terreno',
-                                                            item.id
+                                                            item.id,
                                                         )
                                                     "
                                                     >{{ item.nombre }}</a
@@ -336,7 +346,7 @@ onMounted(() => {
                                                 $us
                                                 {{
                                                     getFormatoMoneda(
-                                                        item.costo_contado
+                                                        item.costo_contado,
                                                     )
                                                 }}
                                             </div>
@@ -357,6 +367,7 @@ onMounted(() => {
                                     <div
                                         class="item item-thumbnail"
                                         v-for="item in registrosFila2"
+                                        :key="item.id"
                                     >
                                         <Link
                                             :href="
@@ -377,7 +388,7 @@ onMounted(() => {
                                                     :href="
                                                         route(
                                                             'portal.terreno',
-                                                            item.id
+                                                            item.id,
                                                         )
                                                     "
                                                     >{{ item.nombre }}</a
@@ -389,7 +400,7 @@ onMounted(() => {
                                             <div class="item-price">
                                                 {{
                                                     oConfiguracion.conf_moneda
-                                                        .abrev
+                                                        ?.abrev
                                                 }}
                                                 {{ item.costo_contado }}
                                             </div>
@@ -410,6 +421,7 @@ onMounted(() => {
                                     <div
                                         class="item item-thumbnail"
                                         v-for="item in registrosFila3"
+                                        :key="item.id"
                                     >
                                         <Link
                                             :href="
@@ -430,7 +442,7 @@ onMounted(() => {
                                                     :href="
                                                         route(
                                                             'portal.terreno',
-                                                            item.id
+                                                            item.id,
                                                         )
                                                     "
                                                     >{{ item.nombre }}</a
@@ -442,7 +454,7 @@ onMounted(() => {
                                             <div class="item-price">
                                                 {{
                                                     oConfiguracion.conf_moneda
-                                                        .abrev
+                                                        ?.abrev
                                                 }}
                                                 {{ item.costo_contado }}
                                             </div>
@@ -454,7 +466,9 @@ onMounted(() => {
                             </div>
                             <div class="search-item-container" v-else>
                                 <div class="row">
-                                    <div class="col-12 p-5"><h5>No se encontraron resultados...</h5></div>
+                                    <div class="col-12 p-5">
+                                        <h5>No se encontraron resultados...</h5>
+                                    </div>
                                 </div>
                             </div>
                             <!-- END search-item-container -->

@@ -6,6 +6,7 @@ const oPreventa = ref({
     cliente_id: "",
     descripcion: "",
     estado: "",
+    calificacion: "",
     _method: "POST",
 });
 
@@ -17,6 +18,7 @@ export const usePreventas = () => {
             oPreventa.value.cliente_id = item.cliente_id;
             oPreventa.value.descripcion = item.descripcion;
             oPreventa.value.estado = item.estado;
+            oPreventa.value.calificacion = item.calificacion;
             oPreventa.value._method = "PUT";
             return oPreventa;
         }
@@ -29,6 +31,7 @@ export const usePreventas = () => {
         oPreventa.value.cliente_id = "";
         oPreventa.value.descripcion = "";
         oPreventa.value.estado = "";
+        oPreventa.value.calificacion = "";
         oPreventa.value._method = "POST";
     };
 
