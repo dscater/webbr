@@ -21,11 +21,21 @@ class VentaUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             "terreno_id" => "required",
             "preventa_id" => "required",
             "descripcion" => "required",
+            "sw_preventa" => "required",
         ];
+
+        if ($this->sw_preventa == 1) {
+            $rules["preventa_id"] = "required";
+            $rules["cliente_id"] = "nullable";
+        } else {
+            $rules["preventa_id"] = "nullable";
+            $rules["cliente_id"] = "required";
+        }
+        return $rules;
     }
 
     public function messages(): array
@@ -33,6 +43,7 @@ class VentaUpdateRequest extends FormRequest
         return [
             "terreno_id.required" => "Debes completar este campo",
             "preventa_id.required" => "Debes completar este campo",
+            "cliente_id.required" => "Debes completar este campo",
             "descripcion.required" => "Debes completar este campo",
         ];
     }

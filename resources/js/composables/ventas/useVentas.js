@@ -6,7 +6,9 @@ export const useVentas = () => {
         id: 0,
         terreno_id: "",
         preventa_id: "",
+        cliente_id: "",
         descripcion: "",
+        sw_preventa: 1,
         _method: "POST",
     };
 

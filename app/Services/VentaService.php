@@ -41,10 +41,30 @@ class VentaService
      */
     public function crear(array $datos): Venta
     {
-        $preventa = Preventa::findOrFail($datos["preventa_id"]);
+        $sw_preventa  = $datos["sw_preventa"];
+
+        if ($sw_preventa == 1) {
+            $preventa = Preventa::findOrFail($datos["preventa_id"]);
+        } else {
+            $existe = Preventa::where("cliente_id", $datos["cliente_id"])
+                ->where("terreno_id", $datos["terreno_id"])
+                ->where("estado", "PRE-VENTA")->first();
+            if (!$existe) {
+                $preventa = Preventa::create([
+                    "terreno_id" => $datos["terreno_id"],
+                    "cliente_id" => $datos["cliente_id"],
+                    "estado" => "PRE-VENTA",
+                    "descripcion" => mb_strtoupper($datos["descripcion"]),
+                    "fecha_registro" => date("Y-m-d")
+                ]);
+            } else {
+                $preventa = $existe;
+            }
+        }
+
         $venta = Venta::create([
             "terreno_id" => $datos["terreno_id"],
-            "preventa_id" => $datos["preventa_id"],
+            "preventa_id" => $preventa->id,
             "cliente_id" => $preventa->cliente->id,
             "descripcion" => mb_strtoupper($datos["descripcion"]),
             "fecha_registro" => date("Y-m-d")
@@ -75,7 +95,6 @@ class VentaService
     public function actualizar(array $datos, Venta $venta): Venta
     {
 
-        $preventa = Preventa::findOrFail($datos["preventa_id"]);
         $old_venta = clone $venta;
         $old_preventa_id = $old_venta->preventa_id;
         $old_terreno_id = $old_venta->terreno_id;
@@ -87,6 +106,27 @@ class VentaService
         $oldTerreno = Terreno::findOrFail($old_terreno_id);
         $oldTerreno->vendido = 0;
         $oldTerreno->save();
+
+        $sw_preventa  = $datos["sw_preventa"];
+        if ($sw_preventa == 1) {
+            $preventa = Preventa::findOrFail($datos["preventa_id"]);
+        } else {
+            $existe = Preventa::where("cliente_id", $datos["cliente_id"])
+                ->where("terreno_id", $datos["terreno_id"])
+                ->where("estado", "PRE-VENTA")
+                ->first();
+            if (!$existe) {
+                $preventa = Preventa::create([
+                    "terreno_id" => $datos["terreno_id"],
+                    "cliente_id" => $datos["cliente_id"],
+                    "estado" => "PRE-VENTA",
+                    "descripcion" => mb_strtoupper($datos["descripcion"]),
+                    "fecha_registro" => date("Y-m-d")
+                ]);
+            } else {
+                $preventa = $existe;
+            }
+        }
 
         $venta->update([
             "terreno_id" => $datos["terreno_id"],

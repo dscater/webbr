@@ -86,6 +86,7 @@ const cerrarDialog = () => {
 };
 
 const cargarListas = () => {
+    cargarClientes();
     cargarTerrenos();
 };
 
@@ -98,14 +99,27 @@ const cargarTerrenos = () => {
             listTerrenos.value = response.data.terrenos;
         });
 };
+const listClientes = ref([]);
+
+const cargarClientes = () => {
+    axios.get(route("clientes.listado")).then((response) => {
+        listClientes.value = response.data.clientes;
+    });
+};
 
 const cargarPreventas = () => {
+    form.sw_preventa = 1;
+    form.cliente_id = "";
     axios
         .get(route("preventas.listadoPorTerreno"), {
             params: { terreno_id: form.terreno_id },
         })
         .then((response) => {
             listPreventas.value = response.data.preventas;
+            if (listPreventas.value.length == 0) {
+                form.preventa_id = "";
+                form.sw_preventa = 0;
+            }
         });
 };
 
@@ -142,6 +156,26 @@ onMounted(() => {
                 <div class="modal-body">
                     <form @submit.prevent="enviarFormulario()">
                         <div class="row">
+                            <div class="col-12">
+                                <label
+                                    class="d-inline-flex mx-1 align-items-center"
+                                >
+                                    Solo Preventas<input
+                                        type="radio"
+                                        class="ml-1"
+                                        v-model="form.sw_preventa"
+                                        :value="1"
+                                /></label>
+                                <label
+                                    class="d-inline-flex mx-1 align-items-center"
+                                >
+                                    Todos los clientes<input
+                                        type="radio"
+                                        class="ml-1"
+                                        v-model="form.sw_preventa"
+                                        :value="0"
+                                /></label>
+                            </div>
                             <div class="col-md-4">
                                 <label>Seleccionar Terreno*</label>
                                 <el-select
@@ -172,8 +206,8 @@ onMounted(() => {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-md-4">
-                                <label>Seleccionar Cliente*</label>
+                            <div class="col-md-4" v-if="form.sw_preventa == 1">
+                                <label>Seleccionar Cliente * </label>
                                 <el-select
                                     :class="{
                                         'parsley-error':
@@ -198,6 +232,35 @@ onMounted(() => {
                                 >
                                     <li class="parsley-required">
                                         {{ form.errors?.preventa_id }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4" v-else>
+                                <label>Seleccionar Cliente*</label>
+                                <el-select
+                                    :class="{
+                                        'parsley-error':
+                                            form.errors?.cliente_id,
+                                    }"
+                                    v-model="form.cliente_id"
+                                    no-data-text="Sin datos"
+                                    no-match-text="Sin resultados"
+                                    placeholder="- Seleccione -"
+                                    filterable
+                                >
+                                    <el-option
+                                        v-for="item in listClientes"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="`${item.full_name} - ${item.full_ci}`"
+                                    ></el-option>
+                                </el-select>
+                                <ul
+                                    v-if="form.errors?.cliente_id"
+                                    class="parsley-errors-list filled"
+                                >
+                                    <li class="parsley-required">
+                                        {{ form.errors?.cliente_id }}
                                     </li>
                                 </ul>
                             </div>
